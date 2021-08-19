@@ -1,0 +1,14 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+apply from: "$rootDir/config/lib.gradle"
+
+dependencies {
+    implementation deps.kotlin
+    implementation deps.coreKtx
+    implementation deps.material
+    implementation deps.constraintlayout
+    implementation deps.appcompat
+}
