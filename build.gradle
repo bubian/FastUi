@@ -38,10 +38,8 @@ ext {
 
     lib = [
             kotlinx_coroutines_version: "1.4.3",
-            room_version              : "2.3.0-alpha01",
-            ktor                      : "1.5.4",
             autoService               : "1.0",
-            KOOM                      : "1.1.0",
+            glide                     : "4.12.0",
     ]
 
     deps = [
@@ -63,13 +61,9 @@ ext {
             // 'activity'         : 'androidx.activity:activity-ktx:+',
             // 'fragment'         : 'androidx.fragment:fragment-ktx:+',
 
-            'room'              : "androidx.room:room-runtime:${lib["room_version"]}",
-            'roomCompiler'      : "androidx.room:room-compiler:${lib["room_version"]}",
-            'roomRxJava'        : "androidx.room:room-rxjava2:${lib["room_version"]}",
-
-            "ktorServerCore"    : "io.ktor:ktor-server-core:${lib["ktor"]}",
-            "ktorServerCio"     : "io.ktor:ktor-server-cio:${lib["ktor"]}",
             "gson"              : 'com.google.code.gson:gson:2.8.5',
+            "glide"             : "com.github.bumptech.glide:glide:${lib["glide"]}",
+            "glideCompiler"     : "com.github.bumptech.glide:compiler:${lib["glide"]}",
 
             "autoService"       : "com.google.auto.service:auto-service:${lib["autoService"]}",
     ]

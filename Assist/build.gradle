@@ -1,0 +1,16 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+apply from: "$rootDir/config/lib.gradle"
+
+dependencies {
+    implementation deps.kotlin
+    implementation deps.coreKtx
+    implementation deps.appcompat
+    implementation deps.glide
+    annotationProcessor deps.glideCompiler
+    // glide支持apng
+    implementation 'com.github.penfeizhou.android.animation:apng:2.11.0'
+}

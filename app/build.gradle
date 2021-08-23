@@ -14,5 +14,6 @@ dependencies {
     implementation deps.appcompat
     implementation deps.multidex
 
-
+    implementation project(":Assist")
+    implementation project(":CommonUi")
 }
