@@ -252,7 +252,6 @@ public class FastFlowLayout extends ViewGroup {
             endTipViewWidthHeight = endTipView.getMeasuredHeight() + endViewLp.topMargin + endViewLp.bottomMargin;
         }
         boolean isMaxWidth = false;
-        // 设置子View的位置
         int left = getPaddingLeft();
         int top = getPaddingTop();
 
@@ -263,7 +262,6 @@ public class FastFlowLayout extends ViewGroup {
                 break;
             }
             View child = getChildAt(i);
-            // 判断child的状态
             if (child.getVisibility() == View.GONE) {
                 continue;
             }
@@ -285,13 +283,12 @@ public class FastFlowLayout extends ViewGroup {
             boolean wrapTwo = isLastRow && (endTipViewWidthWidth + lineWidth > maxWidth) && hasEndTipView;
             boolean wrap = !hasEndTipView && wrapOne || !isLastRow && wrapOne || wrapOne && wrapTwo;
 
-            // 如果需要换行
             if (wrap) {
+                // 换行
                 ++row;
                 if (row >= maxRow) {
                     break;
                 }
-                // 重置我们的行宽和行高
                 lineWidth = 0;
                 lineHeight = childHeight + lp.topMargin + lp.bottomMargin + verticalCap;
 
@@ -331,10 +328,6 @@ public class FastFlowLayout extends ViewGroup {
         }
     }
 
-
-    /**
-     * 与当前ViewGroup对应的LayoutParams
-     */
     @Override
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
         return new MarginLayoutParams(getContext(), attrs);
