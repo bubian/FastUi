@@ -15,16 +15,15 @@ import java.util.List;
 
 public class FastFlowLayout extends ViewGroup {
 
-    private int maxRow = 1;
-    private List<View> lineViews = new ArrayList<>();
-    private final List<List<View>> mAllViews = new ArrayList<>();
-    private final List<Integer> mLineHeight = new ArrayList<>();
+    private int maxRow = 1_000;
     // private Typeface font = ResourcesCompat.getFont(context, R.font.specific);
     private View endTipView;
     private String startData;
     private String endData;
 
-    private int middleMargin;
+    private int horizontalCap;
+
+    private int verticalCap;
 
     public FastFlowLayout(Context context) {
         super(context);
@@ -50,8 +49,13 @@ public class FastFlowLayout extends ViewGroup {
         return this;
     }
 
-    public FastFlowLayout setMiddleMargin(int middleMargin) {
-        this.middleMargin = middleMargin;
+    public FastFlowLayout setHorizontalCap(int horizontalCap) {
+        this.horizontalCap = horizontalCap;
+        return this;
+    }
+
+    public FastFlowLayout setVerticalCap(int verticalCap) {
+        this.verticalCap = verticalCap;
         return this;
     }
 
@@ -70,18 +74,19 @@ public class FastFlowLayout extends ViewGroup {
         setData(new ArrayList<>(Arrays.asList(likeTags)));
     }
 
-
     public void setData(List<String> tags) {
-        if (null == tags) {
+        if (null == tags || tags.size() < 1) {
             return;
         }
         // 添加开头view
         if (null != startData) {
             addFlowView(buildStartFlowView(startData));
         }
+        int index = 0;
         // 添加中间内容
         for (String tag : tags) {
-            addFlowView(buildTagView(tag));
+            addFlowView(buildTagView(tag, null == endData && (index + 1) == tags.size()));
+            index++;
         }
         // 添加结束view
         if (null != endData) {
@@ -89,7 +94,7 @@ public class FastFlowLayout extends ViewGroup {
         }
     }
 
-    protected TextView buildTagView(String data) {
+    protected TextView buildTagView(String data, boolean isEndView) {
         return buildDefaultTagView(data, false, false);
     }
 
@@ -105,13 +110,12 @@ public class FastFlowLayout extends ViewGroup {
         Context context = getContext();
         TextView tagView = new TextView(context);
         MarginLayoutParams params = new MarginLayoutParams(LayoutParams.WRAP_CONTENT, dip2px(17));
-        if (!isEndView) {
-            params.setMarginEnd(middleMargin);
-        }
         tagView.setLayoutParams(params);
         if (!isAssistText) {
             tagView.setBackgroundColor(Color.BLUE);
             tagView.setPadding(dip2px(4), 0, dip2px(4), 0);
+        } else {
+            tagView.setBackgroundColor(Color.BLACK);
         }
         tagView.setGravity(Gravity.CENTER_VERTICAL);
         tagView.setTextColor(context.getResources().getColor(R.color.color_a6a6a6));
@@ -137,16 +141,14 @@ public class FastFlowLayout extends ViewGroup {
 
         int row = 0;
 
-        // 如果是warp_content情况下，记录宽和高
         int width = 0;
         int height = 0;
 
-        // 记录每一行的宽度与高度
         int lineWidth = 0;
         int lineHeight = 0;
 
-        // 得到内部元素的个数
         int cCount = getChildCount();
+        // 测量尾部view
         int endTipViewWidthWidth = 0;
         int endTipViewWidthHeight = 0;
         if (null != endTipView) {
@@ -156,57 +158,68 @@ public class FastFlowLayout extends ViewGroup {
             endTipViewWidthHeight = endTipView.getMeasuredHeight() + endViewLp.topMargin + endViewLp.bottomMargin;
         }
 
+        // 控件最大宽度
+        int maxWidth = sizeWidth - getPaddingLeft() - getPaddingRight();
+        boolean isMaxWidth = false;
         for (int i = 0; i < cCount; i++) {
+            if (isMaxWidth) {
+                break;
+            }
             // 通过索引拿到每一个子view
             View child = getChildAt(i);
-            // 测量子View的宽和高,系统提供的measureChild
-            measureChild(child, widthMeasureSpec, heightMeasureSpec);
-            // 得到LayoutParams
-            MarginLayoutParams lp = (MarginLayoutParams) child
-                    .getLayoutParams();
-
-            // 子View占据的宽度
-            int childWidth = child.getMeasuredWidth() + lp.leftMargin
-                    + lp.rightMargin;
-            // 子View占据的高度
-            int childHeight = child.getMeasuredHeight() + lp.topMargin
-                    + lp.bottomMargin;
-
-            int maxWidth = sizeWidth - getPaddingLeft() - getPaddingRight();
-            if (child == endTipView) {
+            // 判断child的状态
+            if (child.getVisibility() == View.GONE) {
                 continue;
             }
-            // 换行 判断 当前的宽度大于 开辟新行
-            if (lineWidth + childWidth > maxWidth) {
+            boolean hasEndTipView = null != endTipView;
+            if (child == endTipView && i != (cCount - 1)) {
+                continue;
+            }
+            measureChild(child, widthMeasureSpec, heightMeasureSpec);
+            MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();
+            int childWidth = child.getMeasuredWidth() + lp.leftMargin + lp.rightMargin;
+            int childHeight = child.getMeasuredHeight() + lp.topMargin + lp.bottomMargin;
+
+            boolean wrapOne = lineWidth + childWidth > maxWidth;
+            // 是否是最后一行（这里的逻辑不能错）
+            boolean isLastRow = wrapOne && (row + 1) >= maxRow;
+            boolean wrapTwo = (lineWidth + endTipViewWidthWidth) > maxWidth && hasEndTipView;
+            boolean wrap = !hasEndTipView && wrapOne || !isLastRow && wrapOne || wrapOne && wrapTwo;
+            if (wrap) {
+                lineWidth -= horizontalCap;
+                // 换行
                 row++;
                 if (row >= maxRow) {
                     break;
                 }
-                // 对比得到最大的宽度
                 width = Math.max(width, lineWidth);
-                // 重置lineWidth
                 lineWidth = childWidth;
-                // 记录行高
+                lineHeight += verticalCap;
                 height += lineHeight;
                 lineHeight = childHeight;
-            } else { // 未换行
-                if ((endTipViewWidthWidth + childWidth + lineWidth <= maxWidth) || null != endTipView || (row + 1) < maxRow) {
-                    // 叠加行宽
-                    lineWidth += childWidth;
-                    // 得到当前行最大的高度
-                    lineHeight = Math.max(lineHeight, childHeight);
+            } else {
+                if (null == endTipView || (row + 1) < maxRow || (endTipViewWidthWidth + childWidth + lineWidth + horizontalCap) <= maxWidth) {
+                    // 由于前面有可能把endTipView过滤掉，这里做容错处理
+                    if (i == (cCount - 1) && hasEndTipView && child != endTipView) {
+                        lineWidth += endTipViewWidthWidth;
+                        lineHeight = Math.max(lineHeight, endTipViewWidthHeight);
+                    } else {
+                        lineWidth += childWidth;
+                        lineHeight = Math.max(lineHeight, childHeight);
+                    }
+                    if (i != (cCount - 1)){
+                        lineWidth += horizontalCap;
+                    }
                 } else {
-                    // 叠加行宽
+                    // 说明已经到达最后一行，强制结束循环
+                    isMaxWidth = true;
                     lineWidth += endTipViewWidthWidth;
-                    // 得到当前行最大的高度
                     lineHeight = Math.max(lineHeight, endTipViewWidthHeight);
                 }
             }
         }
-        // 特殊情况,最后一个控件
         width = Math.max(lineWidth, width);
         height += lineHeight;
-
         setMeasuredDimension(
                 modeWidth == MeasureSpec.EXACTLY ? sizeWidth : width + getPaddingLeft() + getPaddingRight(),
                 modeHeight == MeasureSpec.EXACTLY ? sizeHeight : height + getPaddingTop() + getPaddingBottom()
@@ -215,9 +228,6 @@ public class FastFlowLayout extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        mAllViews.clear();
-        mLineHeight.clear();
-        lineViews.clear();
         // 当前ViewGroup的宽度
         int width = getWidth();
 
@@ -235,8 +245,23 @@ public class FastFlowLayout extends ViewGroup {
             endTipViewWidthWidth = endTipView.getMeasuredWidth() + endViewLp.leftMargin + endViewLp.rightMargin;
             endTipViewWidthHeight = endTipView.getMeasuredHeight() + endViewLp.topMargin + endViewLp.bottomMargin;
         }
+        boolean isMaxWidth = false;
+        // 设置子View的位置
+        int left = getPaddingLeft();
+        int top = getPaddingTop();
+
+        int maxWidth = width - left - top;
+        View onLayoutView;
         for (int i = 0; i < cCount; i++) {
+            if (isMaxWidth) {
+                break;
+            }
             View child = getChildAt(i);
+            // 判断child的状态
+            if (child.getVisibility() == View.GONE) {
+                continue;
+            }
+            onLayoutView = child;
             if (i != (cCount - 1) && child == endTipView) {
                 continue;
             }
@@ -245,75 +270,58 @@ public class FastFlowLayout extends ViewGroup {
 
             int childWidth = child.getMeasuredWidth();
             int childHeight = child.getMeasuredHeight();
+            int realChildWidth = childWidth + lp.leftMargin + lp.rightMargin;
 
-            int maxWidth = width - getPaddingLeft() - getPaddingRight();
-            boolean wrap = childWidth + lineWidth + lp.leftMargin + lp.rightMargin > maxWidth;
-            boolean wrapTwo = (endTipViewWidthWidth + lineWidth > maxWidth) && hasEndTipView;
+            boolean wrapOne = lineWidth + realChildWidth > maxWidth;
+
+            // 是否是最后一行（这里的逻辑不能错）
+            boolean isLastRow = wrapOne && (row + 1) >= maxRow;
+            boolean wrapTwo = isLastRow && (endTipViewWidthWidth + lineWidth > maxWidth) && hasEndTipView;
+            boolean wrap = !hasEndTipView && wrapOne || !isLastRow && wrapOne || wrapOne && wrapTwo;
+
             // 如果需要换行
-            if (wrap || wrapTwo) {
+            if (wrap) {
                 ++row;
                 if (row >= maxRow) {
                     break;
                 }
-                // 记录LineHeight
-                mLineHeight.add(lineHeight);
-                // 记录当前行的Views
-                mAllViews.add(lineViews);
                 // 重置我们的行宽和行高
                 lineWidth = 0;
-                lineHeight = childHeight + lp.topMargin + lp.bottomMargin;
-                // 重置我们的View集合
-                lineViews.clear();
+                lineHeight = childHeight + lp.topMargin + lp.bottomMargin + verticalCap;
+
+                left = getPaddingLeft();
+                top += lineHeight;
             }
 
-            int realChildWidth = childWidth + lp.leftMargin + lp.rightMargin;
             int realChildHeight = childHeight + lp.topMargin + lp.bottomMargin;
-
-            if ((realChildWidth + endTipViewWidthWidth + lineWidth <= maxWidth) || !hasEndTipView || (row + 1) < maxRow) {
-                lineWidth += realChildWidth;
-                lineHeight = Math.max(lineHeight, realChildHeight);
-                lineViews.add(child);
-            } else {
-                if (lineViews.contains(endTipView)) {
-                    continue;
+            if (!hasEndTipView || (row + 1) < maxRow || (realChildWidth + endTipViewWidthWidth + lineWidth + horizontalCap) <= maxWidth) {
+                // 由于前面有可能把endTipView过滤掉，这里做容错处理
+                if (i == (cCount - 1) && hasEndTipView && child != endTipView) {
+                    lineWidth += endTipViewWidthWidth;
+                    lineHeight = Math.max(lineHeight, endTipViewWidthHeight);
+                    onLayoutView = endTipView;
+                } else {
+                    lineWidth += realChildWidth;
+                    lineHeight = Math.max(lineHeight, realChildHeight);
                 }
+
+            } else {
+                isMaxWidth = true;
                 lineWidth += endTipViewWidthWidth;
                 lineHeight = Math.max(lineHeight, endTipViewWidthHeight);
-                lineViews.add(endTipView);
+                onLayoutView = endTipView;
             }
-        }// for end
-        // 处理最后一行
-        mLineHeight.add(lineHeight);
-        mAllViews.add(lineViews);
 
-        // 设置子View的位置
-        int left = getPaddingLeft();
-        int top = getPaddingTop();
+            MarginLayoutParams onLayoutViewLp = (MarginLayoutParams) onLayoutView.getLayoutParams();
+            int lc = left + onLayoutViewLp.leftMargin;
+            int tc = top + onLayoutViewLp.topMargin;
+            int rc = lc + onLayoutView.getMeasuredWidth();
+            int bc = tc + onLayoutView.getMeasuredHeight();
+            onLayoutView.layout(lc, tc, rc, bc);
+            left += onLayoutView.getMeasuredWidth() + onLayoutViewLp.leftMargin + onLayoutViewLp.rightMargin;
 
-        // 行数
-        int lineNum = mAllViews.size();
-
-        for (int i = 0; i < lineNum; i++) {
-            // 当前行的所有的View
-            lineViews = mAllViews.get(i);
-            lineHeight = mLineHeight.get(i);
-            for (int j = 0; j < lineViews.size(); j++) {
-                View child = lineViews.get(j);
-                // 判断child的状态
-                if (child.getVisibility() == View.GONE) {
-                    continue;
-                }
-                MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();
-                int lc = left + lp.leftMargin;
-                int tc = top + lp.topMargin;
-                int rc = lc + child.getMeasuredWidth();
-                int bc = tc + child.getMeasuredHeight();
-                // 为子View进行布局
-                child.layout(lc, tc, rc, bc);
-                left += child.getMeasuredWidth() + lp.leftMargin + lp.rightMargin;
-            }
-            left = getPaddingLeft();
-            top += lineHeight;
+            lineWidth += horizontalCap;
+            left += horizontalCap;
         }
     }
 

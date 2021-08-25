@@ -13,8 +13,9 @@ class MainActivity : AppCompatActivity() {
         fastFlowLayout.apply {
             setStartText("开始")
             setEndText("结束")
-            setMiddleMargin(60)
-            setData("哈哈哈,功能简介,京津冀,你啊和体会,野猴,哦就给你,jajaj,加官晋爵,刚阿胶糕", ",")
+            setHorizontalCap(60)
+            setVerticalCap(60)
+            setData("哈哈哈,功能简介,京津冀,你体会,就,哦就给你,jajaj,加官晋爵,刚阿胶糕,减肥哈哈,HHHHHH", ",")
         }
     }
 }
