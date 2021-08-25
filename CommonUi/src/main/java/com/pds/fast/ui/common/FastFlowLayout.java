@@ -5,9 +5,12 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.LayoutRes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,26 +25,34 @@ public class FastFlowLayout extends ViewGroup {
     private String endData;
 
     private int horizontalCap;
-
     private int verticalCap;
+    public static final int FLOW = 0;
+    public static final int START = 1;
+    public static final int END = 2;
+
+    private IFlow flow;
+    private int layoutId;
 
     public FastFlowLayout(Context context) {
         super(context);
-        init(context, null);
     }
 
     public FastFlowLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context, attrs);
     }
 
     public FastFlowLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context, attrs);
     }
 
-    private void init(Context context, AttributeSet attrs) {
+    public FastFlowLayout setFastFlow(IFlow flow) {
+        this.flow = flow;
+        return this;
+    }
 
+    public FastFlowLayout setLayoutId(@LayoutRes int layoutId) {
+        this.layoutId = layoutId;
+        return this;
     }
 
     public FastFlowLayout setMaxRow(int maxRow) {
@@ -69,13 +80,13 @@ public class FastFlowLayout extends ViewGroup {
         return this;
     }
 
-    public void setData(String tags, String split) {
-        String[] likeTags = tags.split(split);
+    public void setData(String data, String split) {
+        String[] likeTags = data.split(split);
         setData(new ArrayList<>(Arrays.asList(likeTags)));
     }
 
-    public void setData(List<String> tags) {
-        if (null == tags || tags.size() < 1) {
+    public void setData(List<Object> list) {
+        if (null == list || list.size() < 1) {
             return;
         }
         // 添加开头view
@@ -84,8 +95,8 @@ public class FastFlowLayout extends ViewGroup {
         }
         int index = 0;
         // 添加中间内容
-        for (String tag : tags) {
-            addFlowView(buildTagView(tag, null == endData && (index + 1) == tags.size()));
+        for (Object item : list) {
+            addFlowView(buildFlowView(item));
             index++;
         }
         // 添加结束view
@@ -94,36 +105,24 @@ public class FastFlowLayout extends ViewGroup {
         }
     }
 
-    protected TextView buildTagView(String data, boolean isEndView) {
-        return buildDefaultTagView(data, false, false);
+    protected View buildFlowView(Object data) {
+        return buildDefaultFlowView(data, FLOW);
     }
 
-    protected View buildStartFlowView(String startData) {
-        return buildDefaultTagView(startData, false, true);
+    protected View buildStartFlowView(Object startData) {
+        return buildDefaultFlowView(startData, START);
     }
 
-    protected View buildEndFlowView(String startEnd) {
-        return buildDefaultTagView(startEnd, true, true);
+    protected View buildEndFlowView(Object startEnd) {
+        return buildDefaultFlowView(startEnd, END);
     }
 
-    private TextView buildDefaultTagView(String text, boolean isEndView, boolean isAssistText) {
-        Context context = getContext();
-        TextView tagView = new TextView(context);
-        MarginLayoutParams params = new MarginLayoutParams(LayoutParams.WRAP_CONTENT, dip2px(17));
-        tagView.setLayoutParams(params);
-        if (!isAssistText) {
-            tagView.setBackgroundColor(Color.BLUE);
-            tagView.setPadding(dip2px(4), 0, dip2px(4), 0);
-        } else {
-            tagView.setBackgroundColor(Color.BLACK);
+    protected View buildDefaultFlowView(Object data, int tipType) {
+        if (layoutId > 0){
+            return LayoutInflater.from(getContext()).inflate(layoutId,this,false);
         }
-        tagView.setGravity(Gravity.CENTER_VERTICAL);
-        tagView.setTextColor(context.getResources().getColor(R.color.color_a6a6a6));
-        tagView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
-        tagView.setText(text);
-        return tagView;
+        return null != flow ? flow.buildFlowView(getContext(), data, tipType) : null;
     }
-
 
     private void addFlowView(View view) {
         if (null != view) {
@@ -333,8 +332,7 @@ public class FastFlowLayout extends ViewGroup {
         return new MarginLayoutParams(getContext(), attrs);
     }
 
-    public int dip2px(double dpValue) {
-        float density = getContext().getResources().getDisplayMetrics().density;
-        return (int) (dpValue * density + 0.5);
+    public interface IFlow {
+        View buildFlowView(Context context, Object data, int tipType);
     }
 }
