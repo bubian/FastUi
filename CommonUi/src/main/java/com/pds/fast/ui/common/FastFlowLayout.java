@@ -133,7 +133,10 @@ public class FastFlowLayout extends ViewGroup {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
+        if (maxRow <= 0) {
+            setMeasuredDimension(0, 0);
+            return;
+        }
         int sizeWidth = MeasureSpec.getSize(widthMeasureSpec);
         int modeWidth = MeasureSpec.getMode(widthMeasureSpec);
         int sizeHeight = MeasureSpec.getSize(heightMeasureSpec);
@@ -207,7 +210,7 @@ public class FastFlowLayout extends ViewGroup {
                         lineWidth += childWidth;
                         lineHeight = Math.max(lineHeight, childHeight);
                     }
-                    if (i != (cCount - 1)){
+                    if (i != (cCount - 1)) {
                         lineWidth += horizontalCap;
                     }
                 } else {
@@ -228,6 +231,9 @@ public class FastFlowLayout extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        if (maxRow <= 0) {
+            return;
+        }
         // 当前ViewGroup的宽度
         int width = getWidth();
 

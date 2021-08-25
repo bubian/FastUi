@@ -15,7 +15,8 @@ class MainActivity : AppCompatActivity() {
             setEndText("结束")
             setHorizontalCap(60)
             setVerticalCap(60)
-            setData("哈哈哈,功能简介,京津冀,你体会,就,哦就给你,jajaj,加官晋爵,刚阿胶糕,减肥哈哈,HHHHHH", ",")
+            setMaxRow(1)
+            setData("哈哈哈,功能简介,京津冀,你体会,就,哦就给你,jajaj,加官晋爵,刚阿胶糕,哈,HHHHHH,功能简介,京津冀,你体会,就,哦就给你,jajaj,晋爵,刚阿胶糕,减肥哈哈,HHHHHH", ",")
         }
     }
 }
