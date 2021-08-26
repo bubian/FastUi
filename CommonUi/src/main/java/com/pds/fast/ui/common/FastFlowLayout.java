@@ -21,8 +21,8 @@ public class FastFlowLayout extends ViewGroup {
     private int maxRow = 1_000;
     // private Typeface font = ResourcesCompat.getFont(context, R.font.specific);
     private View endTipView;
-    private String startData;
-    private String endData;
+    private Object startData;
+    private Object endData;
 
     private int horizontalCap;
     private int verticalCap;
@@ -70,12 +70,12 @@ public class FastFlowLayout extends ViewGroup {
         return this;
     }
 
-    public FastFlowLayout setStartText(String startData) {
+    public FastFlowLayout setStartText(Object startData) {
         this.startData = startData;
         return this;
     }
 
-    public FastFlowLayout setEndText(String endText) {
+    public FastFlowLayout setEndText(Object endText) {
         this.endData = endText;
         return this;
     }
