@@ -97,7 +97,7 @@ public class FastProgressView extends View {
         canvas.drawRect(0, 0, width, height, bgPaint);
         // 绘制进度
         float progressSize = progress > 0.99f ? width : (progress * width);
-        canvas.drawRect(0, top, progressSize, height, progressPaint);
+        canvas.drawRect(0, 0, progressSize, height, progressPaint);
         // 绘制描边
         if (strokeWidth > 0) {
             canvas.drawRect(assistRectF, strokePaint);
