@@ -89,6 +89,7 @@ public class FastFlowLayout extends ViewGroup {
         if (null == list || list.size() < 1) {
             return;
         }
+        removeAllViews();
         // 添加开头view
         if (null != startData) {
             addFlowView(buildStartFlowView(startData));
@@ -302,6 +303,7 @@ public class FastFlowLayout extends ViewGroup {
                     lineWidth += endTipViewWidthWidth;
                     lineHeight = Math.max(lineHeight, endTipViewWidthHeight);
                     onLayoutView = endTipView;
+                    isMaxWidth = true;
                 } else {
                     lineWidth += realChildWidth;
                     lineHeight = Math.max(lineHeight, realChildHeight);
