@@ -10,8 +10,11 @@ import android.widget.TextView
 import com.pds.fast.ui.R
 import com.pds.fast.ui.common.FastFlowLayout
 import com.pds.fast.ui.common.page.BaseActivity
+import com.pds.fast.ui.common.page.BaseAppCompatActivity
+import com.pds.fast.ui.common.project.TaoWorkBottomDialog
+import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -35,7 +38,7 @@ class MainActivity : BaseActivity() {
                     tagView.setBackgroundColor(Color.BLACK)
                 }
                 tagView.gravity = Gravity.CENTER_VERTICAL
-                tagView.setTextColor(context.resources.getColor(R.color.color_a6a6a6))
+                tagView.setTextColor(context.resources.getColor(R.color.color_A6A6A6))
                 tagView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11f)
                 tagView.text = text
                 tagView
@@ -45,6 +48,23 @@ class MainActivity : BaseActivity() {
                 ","
             )
         }
+        tao_work_bottom_dialog.setOnClickListener {
+           doTaoWorkDialog();
+        }
+    }
+
+    private fun doTaoWorkDialog() {
+        val list = mutableListOf<TaoWorkBottomDialog.TaoWorkTagModel>()
+        list.add(TaoWorkBottomDialog.TaoWorkTagModel("曾工","test"))
+        list.add(TaoWorkBottomDialog.TaoWorkTagModel("歌哈哈哈","test"))
+        list.add(TaoWorkBottomDialog.TaoWorkTagModel("嘎哈哈","test"))
+        list.add(TaoWorkBottomDialog.TaoWorkTagModel("鸭鹅","test"))
+        list.add(TaoWorkBottomDialog.TaoWorkTagModel("u人","test"))
+        list.add(TaoWorkBottomDialog.TaoWorkTagModel("u时光","test"))
+        list.add(TaoWorkBottomDialog.TaoWorkTagModel("瓯江","test"))
+        list.add(TaoWorkBottomDialog.TaoWorkTagModel("爬进","test"))
+        list.add(TaoWorkBottomDialog.TaoWorkTagModel("就哈就纠结啊就","test"))
+        TaoWorkBottomDialog().setLikeTags(list).show(this)
     }
 
     private fun dip2px(dpValue: Double): Int {

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/add_tag_root"
+    android:layout_width="@dimen/DP_300"
+    android:layout_height="@dimen/DP_189"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center"
+    android:gravity="center_horizontal"
+    android:background="@drawable/bg_white_round_12"
+    android:paddingTop="@dimen/DP_20"
+    android:paddingBottom="@dimen/DP_24"
+    android:paddingStart="@dimen/DP_20"
+    android:paddingEnd="@dimen/DP_20">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/custom_tag"
+        android:textColor="@color/color_333333"
+        android:gravity="center"
+        android:fontFamily="@font/specific"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/et_tag"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/DP_40"
+        android:hint="@string/like_song_style_musician"
+        android:layout_below="@+id/tv_title"
+        android:layout_marginTop="@dimen/DP_20"
+        android:paddingStart="@dimen/DP_12"
+        android:singleLine="true"
+        android:maxLength="15"
+        android:ellipsize="end"
+        android:textColorHint="@color/color_A6A6A6"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/SP_14" />
+
+
+    <TextView
+        android:id="@+id/cancel"
+        android:text="@string/cancel"
+        android:textColor="@color/color_A6A6A6"
+        tools:background="@color/color_F7F8FA"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_width="@dimen/DP_120"
+        android:textSize="@dimen/SP_16"
+        android:layout_height="@dimen/DP_40"
+        android:fontFamily="@font/specific"/>
+
+    <TextView
+        android:id="@+id/add"
+        android:text="@string/add"
+        android:textColor="@android:color/white"
+        tools:background="@android:color/holo_blue_light"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_width="@dimen/DP_120"
+        android:layout_height="@dimen/DP_40"
+        android:textSize="@dimen/SP_16"
+        android:fontFamily="@font/specific"/>
+
+</RelativeLayout>

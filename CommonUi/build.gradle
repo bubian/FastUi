@@ -11,4 +11,5 @@ dependencies {
     implementation deps.material
     implementation deps.constraintlayout
     implementation deps.appcompat
+    implementation deps.flexbox
 }

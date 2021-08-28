@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="toast_unfilled_content">你还未填写内容</string>
+    <string name="toast_tag_upper_limit_five">已超过标签上限，%d个就足够了哦～</string>
+    <string name="toast_added_tag">你已添加此标签</string>
+</resources>

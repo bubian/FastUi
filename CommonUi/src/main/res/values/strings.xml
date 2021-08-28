@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="custom_tao_ge">自定义淘歌</string>
+    <string name="selected_tags">已选择标签</string>
+    <string name="select_like_tags">选择你喜欢的标签</string>
+    <string name="change">换一批</string>
+    <string name="tao_same_musical">淘相似歌曲</string>
+    <string name="custom_tag">自定义标签</string>
+    <string name="like_song_style_musician">喜欢的歌曲名/歌曲风格/音乐人</string>
+</resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BottomAnimation">
+        <item name="android:windowEnterAnimation">@anim/bottom_out</item>
+        <item name="android:windowExitAnimation">@anim/bottom_in</item>
+    </style>
+
+    <style name="BottomDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowAnimationStyle">@style/BottomAnimation</item>
+    </style>
+
+    <style name="NullAnimationDialog" parent="@android:style/Animation.Dialog">  
+            <item name="android:windowEnterAnimation">@null</item>  
+            <item name="android:windowExitAnimation">@null</item>  
+    </style>
+
+    <style name="StyleDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+</resources>
