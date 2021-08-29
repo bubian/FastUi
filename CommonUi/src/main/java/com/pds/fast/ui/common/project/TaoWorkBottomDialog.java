@@ -70,6 +70,7 @@ public class TaoWorkBottomDialog extends FastBottomDialog {
     private int contentViewHeight;
     protected boolean isImmediatelyCloseDialog = true;
     protected IAction action;
+    private int indexOffset;
 
     public TaoWorkBottomDialog() {
         selectedTags.add(CUSTOM);
@@ -331,11 +332,15 @@ public class TaoWorkBottomDialog extends FastBottomDialog {
         if (isAdd) {
             int addIndex = 1;
             selectedTags.add(addIndex, tagModel);
+            selectedRecyclerView.scrollToPosition(0);
             selectedTagsAdapter.notifyItemInserted(addIndex);
-
+            if (indexOffset >= selectedTagsBgColors.length) {
+                indexOffset = 1;
+            }
         } else {
             int index = selectedTags.indexOf(tagModel);
             if (index >= 0 && index < selectedTags.size()) {
+                indexOffset++;
                 selectedTags.remove(index);
                 selectedTagsAdapter.notifyItemRemoved(index);
             }
@@ -426,12 +431,11 @@ public class TaoWorkBottomDialog extends FastBottomDialog {
     }
 
     private int getSelectedTagBgColor(int index) {
-
         return selectedTagsBgColors[calculateSelectedTagBgIndex(index)];
     }
 
     private int calculateSelectedTagBgIndex(int index) {
-        int ind = Math.abs(selectedTags.size() - index);
+        int ind = Math.abs(selectedTags.size() - index + indexOffset);
         int colorSize = selectedTagsBgColors.length;
         return ind % colorSize;
     }
