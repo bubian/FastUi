@@ -165,6 +165,35 @@ public class Glider {
         addGifLifecycler(imageView, drawableGlideRequest);
     }
 
+    /**
+     * 默认图也是圆角
+     * @param imageView
+     * @param imgUrl
+     * @param placeHolderResId
+     * @param cornerRadius
+     */
+    public static void loadRoundImg(ImageView imageView, String imgUrl, int placeHolderResId, float cornerRadius){
+        Context context = imageView.getContext();
+        if (!enable || Assist.assertContextIllegal(context)) {
+            return;
+        }
+        RequestBuilder<Drawable> requestBuilder = GlideApp.with(imageView)
+                .load(placeHolderResId)
+                .error(placeHolderResId)
+                .apply(new RequestOptions().centerCrop().transform(new CenterCrop(), new RoundedCorners((int) cornerRadius))
+                );
+
+        GlideRequest<Drawable> drawableGlideRequest = GlideApp.with(context)
+                .asDrawable()
+                .load(imgUrl)
+                .transform(new CenterCrop(), new RoundedCorners((int) cornerRadius))
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .thumbnail(requestBuilder)
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
+
+        addGifLifecycler(imageView, drawableGlideRequest);
+    }
+
     public static void loadRoundCornerNotCenterCrop(ImageView imageView, String imgUrl, int colorResId, float cornerRadius) {
         Context context = imageView.getContext();
         if (!enable || Assist.assertContextIllegal(context)) {
