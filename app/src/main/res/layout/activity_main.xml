@@ -23,4 +23,24 @@
         app:layout_constraintTop_toBottomOf="@+id/fast_flow_layout"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <com.pds.fast.ui.common.progress.FastRingProgress
+        android:id="@+id/ring_progress"
+        android:layout_width="@dimen/DP_45"
+        android:layout_height="@dimen/DP_45"
+        app:frp_startColor="@color/color_FFCB62"
+        app:frp_endColor="@color/color_FF6B7C"
+        app:frp_strokeWidth="@dimen/DP_3"
+        app:frp_nodeColor="@color/color_FF7900"
+        app:frp_nodeRadius="@dimen/DP_3"
+        app:frp_bgColor="@color/color_F0F0EF"
+        app:frp_startPosition="top"
+        app:layout_constraintTop_toBottomOf="@+id/tao_work_bottom_dialog"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.pds.fast.ui.common.progress.HalfProgressBar
+        android:layout_width="@dimen/DP_45"
+        android:layout_height="@dimen/DP_45"
+        app:layout_constraintTop_toBottomOf="@+id/ring_progress"
+        app:layout_constraintStart_toStartOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

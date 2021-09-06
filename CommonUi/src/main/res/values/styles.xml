@@ -46,4 +46,12 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/color_BBBBBB</item>
     </style>
+
+    <declare-styleable name="MyHalfProgressBar">
+        <attr name="roundColor1" format="color"/>
+        <attr name="roundProgressColor1" format="color"/>
+        <attr name="circularDotColor1" format="color"/>
+        <attr name="progressTextColor" format="color"/>
+        <attr name="progressTextSize" format="dimension"/>
+    </declare-styleable>
 </resources>

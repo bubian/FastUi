@@ -1,34 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="FastProgressView">
-        <attr name="bg_Color" format="color"/>
-        <attr name="progress_Color" format="color"/>
-        <attr name="android:radius" format="dimension"/>
-        <attr name="android:strokeColor" format="color"/>
-        <attr name="android:strokeWidth" format="dimension"/>
+        <attr name="fpv_bgColor" format="color" />
+        <attr name="fpv_progressColor" format="color" />
+        <attr name="fpv_radius" format="dimension" />
+        <attr name="fpv_strokeColor" format="color" />
+        <attr name="fpv_strokeWidth" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="FastRingProgress">
+        <attr name="frp_strokeWidth" format="dimension" />
+        <attr name="frp_startColor" format="color" />
+        <attr name="frp_middleColor" format="color" />
+        <attr name="frp_endColor" format="color" />
+        <attr name="frp_nodeColor" format="color" />
+        <attr name="frp_nodeRadius" format="dimension" />
+        <attr name="frp_bgColor" format="color" />
+        <attr name="frp_startPosition" format="enum|reference">
+            <enum name="left" value="0"/>
+            <enum name="right" value="1"/>
+            <enum name="top" value="2"/>
+            <enum name="bottom" value="3"/>
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="rtl_RecyclerTabLayout">
-        <attr name="rtl_tabIndicatorColor" format="color"/>
-        <attr name="rtl_tabIndicatorHeight" format="dimension"/>
-        <attr name="rtl_tabIndicatorWidth" format="dimension"/>
+        <attr name="rtl_tabIndicatorColor" format="color" />
+        <attr name="rtl_tabIndicatorHeight" format="dimension" />
+        <attr name="rtl_tabIndicatorWidth" format="dimension" />
 
-        <attr name="rtl_tabBackground" format="reference"/>
+        <attr name="rtl_tabBackground" format="reference" />
 
-        <attr name="rtl_tabTextAppearance" format="reference"/>
-        <attr name="rtl_tabSelectedTextColor" format="color"/>
+        <attr name="rtl_tabTextAppearance" format="reference" />
+        <attr name="rtl_tabSelectedTextColor" format="color" />
 
-        <attr name="rtl_tabOnScreenLimit" format="integer"/>
-        <attr name="rtl_tabMinWidth" format="dimension"/>
-        <attr name="rtl_tabMaxWidth" format="dimension"/>
+        <attr name="rtl_tabOnScreenLimit" format="integer" />
+        <attr name="rtl_tabMinWidth" format="dimension" />
+        <attr name="rtl_tabMaxWidth" format="dimension" />
 
-        <attr name="rtl_tabPaddingStart" format="dimension"/>
-        <attr name="rtl_tabPaddingTop" format="dimension"/>
-        <attr name="rtl_tabPaddingEnd" format="dimension"/>
-        <attr name="rtl_tabPaddingBottom" format="dimension"/>
-        <attr name="rtl_tabPadding" format="dimension"/>
+        <attr name="rtl_tabPaddingStart" format="dimension" />
+        <attr name="rtl_tabPaddingTop" format="dimension" />
+        <attr name="rtl_tabPaddingEnd" format="dimension" />
+        <attr name="rtl_tabPaddingBottom" format="dimension" />
+        <attr name="rtl_tabPadding" format="dimension" />
 
-        <attr name="rtl_scrollEnabled" format="boolean"/>
+        <attr name="rtl_scrollEnabled" format="boolean" />
 
     </declare-styleable>
 </resources>

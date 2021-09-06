@@ -1,4 +1,4 @@
-package com.pds.fast.ui.common;
+package com.pds.fast.ui.common.progress;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,6 +11,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+
+import com.pds.fast.ui.common.R;
 
 public class FastProgressView extends View {
     private int radius;
@@ -44,11 +46,11 @@ public class FastProgressView extends View {
 
     private void init(Context context, AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FastProgressView, 0, 0);
-        int bgColor = a.getColor(R.styleable.FastProgressView_bg_Color, Color.RED);
-        int progressColor = a.getColor(R.styleable.FastProgressView_progress_Color, Color.BLUE);
-        radius = a.getDimensionPixelSize(R.styleable.FastProgressView_android_radius, 0);
-        strokeWidth = a.getDimensionPixelSize(R.styleable.FastProgressView_android_strokeWidth, 0);
-        int strokeColor = a.getColor(R.styleable.FastProgressView_android_strokeColor, Color.TRANSPARENT);
+        int bgColor = a.getColor(R.styleable.FastProgressView_fpv_bgColor, Color.RED);
+        int progressColor = a.getColor(R.styleable.FastProgressView_fpv_progressColor, Color.BLUE);
+        radius = a.getDimensionPixelSize(R.styleable.FastProgressView_fpv_radius, 0);
+        strokeWidth = a.getDimensionPixelSize(R.styleable.FastProgressView_fpv_strokeWidth, 0);
+        int strokeColor = a.getColor(R.styleable.FastProgressView_fpv_strokeColor, Color.TRANSPARENT);
         a.recycle();
 
         bgPaint.setColor(bgColor);
