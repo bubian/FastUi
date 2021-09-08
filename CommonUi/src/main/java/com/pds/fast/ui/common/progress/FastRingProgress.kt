@@ -115,43 +115,45 @@ class FastRingProgress @JvmOverloads constructor(
             wrapProgressAngle -= 360
         }
 
+        val wHalf = width / 2
+        val hHalf = height / 2
+
         var nodeX = 0f
         var nodeY = 0f
 
         if (wrapProgressAngle < 90) {
-            val angle = Math.PI / 180.toDouble() * (90 - wrapProgressAngle)
-            val v = sin(angle).toFloat() * radius
-            val v1 = cos(angle).toFloat() * radius
-            nodeX = width / 2 + v1
-            nodeY = height / 2 - v
-
+            val angle = (Math.PI / 180.toDouble() * (90 - wrapProgressAngle)).toFloat()
+            val v = sin(angle) * radius
+            val v1 = cos(angle) * radius
+            nodeX = wHalf + v1
+            nodeY = hHalf - v
         } else if (wrapProgressAngle == 90f) {
-            nodeX = (width / 2 + radius).toFloat()
-            nodeY = (height / 2).toFloat()
+            nodeX = (wHalf + radius).toFloat()
+            nodeY = (hHalf).toFloat()
         } else if (wrapProgressAngle > 90 && wrapProgressAngle < 180) {
             val angle = (Math.PI / 180.toDouble() * (180 - wrapProgressAngle)).toFloat()
             val v = sin(angle) * radius
             val v1 = cos(angle) * radius
-            nodeX = width / 2 + v
-            nodeY = height / 2 + v1
+            nodeX = wHalf + v
+            nodeY = hHalf + v1
         } else if (wrapProgressAngle == 180f) {
-            nodeX = (width / 2).toFloat()
-            nodeY = (height / 2 + radius).toFloat()
+            nodeX = (wHalf).toFloat()
+            nodeY = (hHalf + radius).toFloat()
         } else if (wrapProgressAngle > 180 && wrapProgressAngle < 270) {
             val angle = (Math.PI / 180.toDouble() * (270 - wrapProgressAngle)).toFloat()
             val v = sin(angle) * radius
             val v1 = cos(angle) * radius
-            nodeX = width / 2 - v1
-            nodeY = height / 2 + v
+            nodeX = wHalf - v1
+            nodeY = hHalf + v
         } else if (wrapProgressAngle == 270f) {
             nodeX = nodeRadius.toFloat()
-            nodeY = (height / 2).toFloat()
+            nodeY = (hHalf).toFloat()
         } else if (wrapProgressAngle > 270) {
             val angle = (Math.PI / 180.toDouble() * (360 - wrapProgressAngle)).toFloat()
             val v = sin(angle) * radius
             val v1 = cos(angle) * radius
-            nodeX = width / 2 - v
-            nodeY = height / 2 - v1
+            nodeX = wHalf - v
+            nodeY = hHalf - v1
         }
         canvas.drawArc(rectF, realProgressAngle + startPosition * 90f, (1 - progress) * 360f, false, bgPaint)
         canvas.drawArc(rectF, startPosition * 90f, realProgressAngle, false, progressPaint)
