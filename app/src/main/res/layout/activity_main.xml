@@ -37,10 +37,4 @@
         app:layout_constraintTop_toBottomOf="@+id/tao_work_bottom_dialog"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.pds.fast.ui.common.progress.HalfProgressBar
-        android:layout_width="@dimen/DP_45"
-        android:layout_height="@dimen/DP_45"
-        app:layout_constraintTop_toBottomOf="@+id/ring_progress"
-        app:layout_constraintStart_toStartOf="parent"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

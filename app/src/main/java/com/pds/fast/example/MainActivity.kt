@@ -51,6 +51,8 @@ class MainActivity : BaseAppCompatActivity() {
         tao_work_bottom_dialog.setOnClickListener {
            doTaoWorkDialog();
         }
+
+        ring_progress.setProgress(0.55f)
     }
 
     private fun doTaoWorkDialog() {
