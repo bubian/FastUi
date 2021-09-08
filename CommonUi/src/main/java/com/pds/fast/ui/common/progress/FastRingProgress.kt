@@ -1,5 +1,6 @@
 package com.pds.fast.ui.common.progress
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.GradientDrawable
@@ -27,6 +28,8 @@ class FastRingProgress @JvmOverloads constructor(
     private val customMatrix = Matrix()
     private val rectF = RectF()
     private var wh = 0f
+    private var animationTime = 1_000L
+    private var valueAnimator: ValueAnimator? = null
 
     companion object {
         private const val RIGHT = 0
@@ -91,6 +94,25 @@ class FastRingProgress @JvmOverloads constructor(
 
     fun setProgress(progress: Float) {
         this.progress = progress
+    }
+
+    fun setAnimationTime(time: Long){
+        animationTime = time
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        valueAnimator?.cancel()
+    }
+
+    fun setProgressWithAnimation(progress: Float) {
+        valueAnimator?.cancel()
+        valueAnimator = ValueAnimator.ofFloat(0f, progress).setDuration(animationTime)
+        valueAnimator?.addUpdateListener {
+            this.progress = it.animatedValue as Float
+            invalidate()
+        }
+        valueAnimator?.start()
     }
 
     fun setRingGradientColor(intArray: IntArray) {
