@@ -7,6 +7,7 @@ import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.view.View
 import com.pds.fast.ui.common.R
+import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -106,8 +107,12 @@ class FastRingProgress @JvmOverloads constructor(
     }
 
     fun setProgressWithAnimation(progress: Float) {
+        setProgressWithAnimation(0f, progress)
+    }
+
+    fun setProgressWithAnimation(startProgress: Float, endProgress: Float) {
         valueAnimator?.cancel()
-        valueAnimator = ValueAnimator.ofFloat(0f, progress).setDuration(animationTime)
+        valueAnimator = ValueAnimator.ofFloat(startProgress, endProgress).setDuration(abs(animationTime))
         valueAnimator?.addUpdateListener {
             this.progress = it.animatedValue as Float
             invalidate()
@@ -178,8 +183,10 @@ class FastRingProgress @JvmOverloads constructor(
             nodeY = hHalf - v1
         }
         canvas.drawArc(rectF, realProgressAngle + startPosition * 90f, (1 - progress) * 360f, false, bgPaint)
-        canvas.drawArc(rectF, startPosition * 90f, realProgressAngle, false, progressPaint)
-        canvas.drawPoint(nodeX, nodeY, nodePaint)
+        if (realProgressAngle > 0.001) {
+            canvas.drawArc(rectF, startPosition * 90f, realProgressAngle, false, progressPaint)
+            canvas.drawPoint(nodeX, nodeY, nodePaint)
+        }
     }
 
     private fun dip2px(dpValue: Float): Float {
