@@ -97,6 +97,16 @@ class FastRingProgress @JvmOverloads constructor(
         this.progress = progress
     }
 
+    fun getProgress(): Float {
+        return progress
+    }
+
+    fun setWH(wh: Float) {
+        this.wh = wh
+        createRingGradient()
+        rectF.set(nodeRadius.toFloat(), nodeRadius.toFloat(), wh - nodeRadius.toFloat(), wh - nodeRadius.toFloat())
+    }
+
     fun setAnimationTime(time: Long){
         animationTime = time
     }
