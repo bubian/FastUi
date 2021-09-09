@@ -135,7 +135,12 @@ class FastRingProgress @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         val radius: Int = width / 2 - nodeRadius
-        val realProgressAngle = progress * 360
+        var realProgressAngle = progress * 360
+
+        if (realProgressAngle > 360) {
+            realProgressAngle = 360f
+        }
+
         var wrapProgressAngle = realProgressAngle + (startPosition + 1) * 90
 
         if (wrapProgressAngle > 360) {
@@ -148,39 +153,47 @@ class FastRingProgress @JvmOverloads constructor(
         var nodeX = 0f
         var nodeY = 0f
 
-        if (wrapProgressAngle < 90) {
-            val angle = (Math.PI / 180.toDouble() * (90 - wrapProgressAngle)).toFloat()
-            val v = sin(angle) * radius
-            val v1 = cos(angle) * radius
-            nodeX = wHalf + v1
-            nodeY = hHalf - v
-        } else if (wrapProgressAngle == 90f) {
-            nodeX = (wHalf + radius).toFloat()
-            nodeY = (hHalf).toFloat()
-        } else if (wrapProgressAngle > 90 && wrapProgressAngle < 180) {
-            val angle = (Math.PI / 180.toDouble() * (180 - wrapProgressAngle)).toFloat()
-            val v = sin(angle) * radius
-            val v1 = cos(angle) * radius
-            nodeX = wHalf + v
-            nodeY = hHalf + v1
-        } else if (wrapProgressAngle == 180f) {
-            nodeX = (wHalf).toFloat()
-            nodeY = (hHalf + radius).toFloat()
-        } else if (wrapProgressAngle > 180 && wrapProgressAngle < 270) {
-            val angle = (Math.PI / 180.toDouble() * (270 - wrapProgressAngle)).toFloat()
-            val v = sin(angle) * radius
-            val v1 = cos(angle) * radius
-            nodeX = wHalf - v1
-            nodeY = hHalf + v
-        } else if (wrapProgressAngle == 270f) {
-            nodeX = nodeRadius.toFloat()
-            nodeY = (hHalf).toFloat()
-        } else if (wrapProgressAngle > 270) {
-            val angle = (Math.PI / 180.toDouble() * (360 - wrapProgressAngle)).toFloat()
-            val v = sin(angle) * radius
-            val v1 = cos(angle) * radius
-            nodeX = wHalf - v
-            nodeY = hHalf - v1
+        when {
+            wrapProgressAngle < 90 -> {
+                val angle = (Math.PI / 180.toDouble() * (90 - wrapProgressAngle)).toFloat()
+                val v = sin(angle) * radius
+                val v1 = cos(angle) * radius
+                nodeX = wHalf + v1
+                nodeY = hHalf - v
+            }
+            wrapProgressAngle == 90f -> {
+                nodeX = (wHalf + radius).toFloat()
+                nodeY = (hHalf).toFloat()
+            }
+            wrapProgressAngle > 90 && wrapProgressAngle < 180 -> {
+                val angle = (Math.PI / 180.toDouble() * (180 - wrapProgressAngle)).toFloat()
+                val v = sin(angle) * radius
+                val v1 = cos(angle) * radius
+                nodeX = wHalf + v
+                nodeY = hHalf + v1
+            }
+            wrapProgressAngle == 180f -> {
+                nodeX = (wHalf).toFloat()
+                nodeY = (hHalf + radius).toFloat()
+            }
+            wrapProgressAngle > 180 && wrapProgressAngle < 270 -> {
+                val angle = (Math.PI / 180.toDouble() * (270 - wrapProgressAngle)).toFloat()
+                val v = sin(angle) * radius
+                val v1 = cos(angle) * radius
+                nodeX = wHalf - v1
+                nodeY = hHalf + v
+            }
+            wrapProgressAngle == 270f -> {
+                nodeX = nodeRadius.toFloat()
+                nodeY = (hHalf).toFloat()
+            }
+            wrapProgressAngle > 270 -> {
+                val angle = (Math.PI / 180.toDouble() * (360 - wrapProgressAngle)).toFloat()
+                val v = sin(angle) * radius
+                val v1 = cos(angle) * radius
+                nodeX = wHalf - v
+                nodeY = hHalf - v1
+            }
         }
         canvas.drawArc(rectF, realProgressAngle + startPosition * 90f, (1 - progress) * 360f, false, bgPaint)
         if (realProgressAngle > 0.001) {
