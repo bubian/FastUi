@@ -228,6 +228,7 @@ public class TaoWorkBottomDialog extends FastBottomDialog {
         selectedRecyclerView = view.findViewById(R.id.selected_tags);
         LinearLayoutManager manager = new LinearLayoutManager(view.getContext());
         manager.setReverseLayout(true);
+        manager.setStackFromEnd(true);
         manager.setOrientation(RecyclerView.HORIZONTAL);
         selectedRecyclerView.setLayoutManager(manager);
         selectedRecyclerView.addItemDecoration(new FastDividerItemDecoration(view.getContext(),
