@@ -39,7 +39,7 @@ public class Shapes {
         private int strokeWidth;
         private float dashWidth;
         private float dashGap;
-        @ColorInt
+
         private int orientation;
         private float radius;
         private float topLeftRadius;
@@ -101,9 +101,9 @@ public class Shapes {
             return this;
         }
 
-        public Shapes.Builder setStroke(int strokeWidth, @ColorInt int orientation, int dashWidth, int dashGap) {
+        public Shapes.Builder setStroke(int strokeWidth, int argb, int dashWidth, int dashGap) {
             config.strokeWidth = strokeWidth;
-            config.orientation = orientation;
+            config.argb = argb;
             config.dashWidth = (float) dashWidth;
             config.dashGap = (float) dashGap;
             return this;
