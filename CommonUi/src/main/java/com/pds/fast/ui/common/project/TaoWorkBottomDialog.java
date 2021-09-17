@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.EditText;
@@ -71,6 +73,7 @@ public class TaoWorkBottomDialog extends FastBottomDialog {
     protected boolean isImmediatelyCloseDialog = true;
     protected IAction action;
     private int indexOffset;
+    private LayoutAnimationController layoutAnimationController;
 
     public TaoWorkBottomDialog() {
         selectedTags.add(CUSTOM);
@@ -189,6 +192,20 @@ public class TaoWorkBottomDialog extends FastBottomDialog {
         ivChange = view.findViewById(R.id.iv_change);
         ivChange.setOnClickListener(changeListener);
         initSelectRecyclerView(view);
+    }
+
+    private void initAnimation() {
+        if (null == layoutAnimationController) {
+            Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.right_in);
+            layoutAnimationController = new LayoutAnimationController(animation);
+            layoutAnimationController.setOrder(LayoutAnimationController.ORDER_NORMAL);
+            layoutAnimationController.setDelay(0.2f);
+        }
+    }
+
+    private void setSelectRecyclerViewAnimation(){
+        initAnimation();
+        recyclerView.setLayoutAnimation(layoutAnimationController);
     }
 
     protected void doStartTaoWork(View view, List<TaoWorkTagModel> selectedTags) {
