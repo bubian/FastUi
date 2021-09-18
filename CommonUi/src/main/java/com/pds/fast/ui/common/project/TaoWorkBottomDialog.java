@@ -3,6 +3,7 @@ package com.pds.fast.ui.common.project;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -10,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
@@ -203,7 +205,7 @@ public class TaoWorkBottomDialog extends FastBottomDialog {
         }
     }
 
-    private void setSelectRecyclerViewAnimation(){
+    private void setSelectRecyclerViewAnimation() {
         initAnimation();
         recyclerView.setLayoutAnimation(layoutAnimationController);
     }
@@ -368,68 +370,90 @@ public class TaoWorkBottomDialog extends FastBottomDialog {
         }
     }
 
+    private class CustomTagDialog extends FastDialog {
+
+        public CustomTagDialog(Context context) {
+            this(context, R.style.AdjustPanStyleDialog);
+        }
+
+        public CustomTagDialog(Context context, int style) {
+            super(context, style);
+            Window window = getWindow();
+            if (null != window) {
+                // 解决dialog闪屏问题
+                window.setWindowAnimations(R.style.NullAnimationDialog);
+            }
+        }
+
+        @Override
+        public void init() {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setStatusBarColor(Color.TRANSPARENT);
+            }
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.dialog_add_tag);
+            TextView cancel = findViewById(R.id.cancel);
+            cancel.setBackground(new Shapes.Builder(Shapes.RECTANGLE)
+                    .setCornerRadius(dip2px(25))
+                    .setSolid(context.getResources().getColor(R.color.color_F7F8FA))
+                    .build());
+
+            EditText editText = findViewById(R.id.et_tag);
+            editText.setBackground(new Shapes.Builder(Shapes.RECTANGLE)
+                    .setCornerRadius(dip2px(6))
+                    .setSolid(context.getResources().getColor(R.color.color_F7F8FA))
+                    .build());
+            TextView add = findViewById(R.id.add);
+
+            add.setBackground(new Shapes.Builder(Shapes.RECTANGLE)
+                    .setCornerRadius(dip2px(25))
+                    .setSolid(context.getResources().getColor(R.color.color_FA3123))
+                    .build());
+
+            add.setOnClickListener(new WarpClickListener() {
+                @Override
+                protected void onSingleClick(View v) {
+                    String tag = editText.getText().toString();
+                    if (TextUtils.isEmpty(tag)) {
+                        Toast.makeText(context, context.getResources().getString(R.string.toast_unfilled_content), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (selectedTags.size() > maxTags) {
+                        Toast.makeText(context, String.format(context.getResources().getString(R.string.toast_tag_upper_limit_five), maxTags), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    TaoWorkTagModel newModel = new TaoWorkTagModel(tag, customTagType);
+                    newModel.setChecked(true);
+                    if (selectedTags.contains(newModel)) {
+                        Toast.makeText(context, context.getResources().getString(R.string.toast_added_tag), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    syncSelectedTags(newModel, true);
+                    syncTagsAdapter(newModel);
+                    dismiss();
+                    clickAddCustomTag(tag);
+                }
+            });
+            cancel.setOnClickListener(v1 -> {
+                clickCancelCustomTagDialog(editText.getText().toString());
+                addTagDialog.dismiss();
+            });
+        }
+    }
+
     private FastDialog addTagDialog;
 
     protected void doAddTagDialog(Context context) {
         if (null != addTagDialog && addTagDialog.isShowing()) {
             return;
         }
-        addTagDialog = new FastDialog(context) {
-            @Override
-            protected void onCreate(Bundle savedInstanceState) {
-                super.onCreate(savedInstanceState);
-                setContentView(R.layout.dialog_add_tag);
-                TextView cancel = findViewById(R.id.cancel);
-                cancel.setBackground(new Shapes.Builder(Shapes.RECTANGLE)
-                        .setCornerRadius(dip2px(25))
-                        .setSolid(context.getResources().getColor(R.color.color_F7F8FA))
-                        .build());
-
-                EditText editText = findViewById(R.id.et_tag);
-                editText.setBackground(new Shapes.Builder(Shapes.RECTANGLE)
-                        .setCornerRadius(dip2px(6))
-                        .setSolid(context.getResources().getColor(R.color.color_F7F8FA))
-                        .build());
-                TextView add = findViewById(R.id.add);
-
-                add.setBackground(new Shapes.Builder(Shapes.RECTANGLE)
-                        .setCornerRadius(dip2px(25))
-                        .setSolid(context.getResources().getColor(R.color.color_FA3123))
-                        .build());
-
-                add.setOnClickListener(new WarpClickListener() {
-                    @Override
-                    protected void onSingleClick(View v) {
-                        String tag = editText.getText().toString();
-                        if (TextUtils.isEmpty(tag)) {
-                            Toast.makeText(context, context.getResources().getString(R.string.toast_unfilled_content), Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        if (selectedTags.size() > maxTags) {
-                            Toast.makeText(context, String.format(context.getResources().getString(R.string.toast_tag_upper_limit_five), maxTags), Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        TaoWorkTagModel newModel = new TaoWorkTagModel(tag, customTagType);
-                        newModel.setChecked(true);
-                        if (selectedTags.contains(newModel)) {
-                            Toast.makeText(context, context.getResources().getString(R.string.toast_added_tag), Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        syncSelectedTags(newModel, true);
-                        syncTagsAdapter(newModel);
-                        dismiss();
-                        clickAddCustomTag(tag);
-                    }
-                });
-                cancel.setOnClickListener(v1 -> {
-                    clickCancelCustomTagDialog(editText.getText().toString());
-                    addTagDialog.dismiss();
-                });
-            }
-
-        };
+        addTagDialog = new CustomTagDialog(context);
         addTagDialog.setCancelable(false);
         addTagDialog.show();
     }

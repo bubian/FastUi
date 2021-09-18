@@ -29,7 +29,7 @@ public class FastDialog extends Dialog {
         init();
     }
 
-    private void init() {
+    protected void init() {
         Window window = getWindow();
         if (window != null) {
             // 解决dialog闪屏问题

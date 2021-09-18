@@ -54,4 +54,9 @@
         <attr name="progressTextColor" format="color"/>
         <attr name="progressTextSize" format="dimension"/>
     </declare-styleable>
+
+    <style name="AdjustPanStyleDialog" parent="StyleDialog">
+        <item name="android:windowSoftInputMode">adjustPan</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
 </resources>
