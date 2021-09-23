@@ -1,5 +1,6 @@
 package com.pds.fast.example.test;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -34,7 +35,7 @@ public class GsonActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_test);
         List<TaoWorkTagModel> tagModels = new ArrayList<>();
 
         TaoWorkTagModel model = new TaoWorkTagModel("1", "2");
@@ -45,6 +46,10 @@ public class GsonActivity extends AppCompatActivity {
         Log.d("GsonActivity", new Gson().toJson(tagModels));
 
         testTwo();
+
+        findViewById(R.id.btn_jump).setOnClickListener(v -> {
+            startActivity(new Intent(this,HandlerActivity.class));
+        });
     }
 
     @Override
