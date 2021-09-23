@@ -165,6 +165,7 @@ class FastRingProgress @JvmOverloads constructor(
 
         when {
             wrapProgressAngle < 90 -> {
+                // sin30°为列:Math.sin(30*Math.PI/180),思路为 PI 相当于 π,而此时的 PI 在角度值里相当 于180°,所以 Math.PI/180得到的结果就是1°,然后再乘以30就......
                 val angle = (Math.PI / 180.toDouble() * (90 - wrapProgressAngle)).toFloat()
                 val v = sin(angle) * radius
                 val v1 = cos(angle) * radius
