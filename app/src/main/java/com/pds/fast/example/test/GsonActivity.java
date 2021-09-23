@@ -1,4 +1,4 @@
-package com.pds.fast.example.test.fff;
+package com.pds.fast.example.test;
 
 import android.os.Bundle;
 import android.os.Handler;

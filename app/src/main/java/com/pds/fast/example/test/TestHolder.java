@@ -1,4 +1,4 @@
-package com.pds.fast.example.test.fff;
+package com.pds.fast.example.test;
 
 import android.app.Activity;
 import android.os.Handler;
