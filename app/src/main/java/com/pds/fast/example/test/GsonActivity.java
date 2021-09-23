@@ -7,13 +7,19 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.util.LogPrinter;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
+import com.pds.fast.ui.R;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +34,7 @@ public class GsonActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         List<TaoWorkTagModel> tagModels = new ArrayList<>();
 
         TaoWorkTagModel model = new TaoWorkTagModel("1", "2");
@@ -37,6 +44,43 @@ public class GsonActivity extends AppCompatActivity {
 
         Log.d("GsonActivity", new Gson().toJson(tagModels));
 
+        testTwo();
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+
+    }
+
+    private TextView tv;
+    private void testTwo() {
+        tv = new TextView(this);
+        ViewGroup viewGroup = (ViewGroup) getWindow().getDecorView();
+        viewGroup.addView(tv);
+
+        tv.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+            @Override
+            public void onViewAttachedToWindow(View v) {
+                tv.postDelayed(viewRunnable,4000);
+                tv.getHandler().dump(new LogPrinter(Log.ERROR, "Test222"), "viewHandler");
+                viewGroup.removeView(tv);
+            }
+
+            @Override
+            public void onViewDetachedFromWindow(View v) {
+                viewGroup.postDelayed(() -> {
+                    Log.e("Test333", "onViewDetachedFromWindow");
+                    // 移不掉
+                    tv.removeCallbacks(viewRunnable);
+                },200);
+            }
+        });
+    }
+
+    private final Runnable viewRunnable = () -> Log.e("Test222", "view handler start");
+
+    private void testOne() {
         one.post(oneRun);
 
         two.post(twoRun);
@@ -51,9 +95,6 @@ public class GsonActivity extends AppCompatActivity {
         // two.removeCallbacks(twoRun);
         // two.removeCallbacksAndMessages(twoRun);
         Log.e("Test", "dump start");
-
-
-
     }
 
     private final Runnable oneRun = () -> {
