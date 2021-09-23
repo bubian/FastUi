@@ -39,8 +39,8 @@ public class Shapes {
         private int strokeWidth;
         private float dashWidth;
         private float dashGap;
-
-        private int orientation;
+        @ColorInt
+        private int strokeColor;
         private float radius;
         private float topLeftRadius;
         private float topRightRadius;
@@ -101,9 +101,9 @@ public class Shapes {
             return this;
         }
 
-        public Shapes.Builder setStroke(int strokeWidth, int argb, int dashWidth, int dashGap) {
+        public Shapes.Builder setStroke(int strokeWidth, int strokeColor, int dashWidth, int dashGap) {
             config.strokeWidth = strokeWidth;
-            config.argb = argb;
+            config.strokeColor = strokeColor;
             config.dashWidth = (float) dashWidth;
             config.dashGap = (float) dashGap;
             return this;
@@ -129,14 +129,14 @@ public class Shapes {
                 GradientDrawable gradientDrawable = new GradientDrawable();
                 gradientDrawable.setShape(config.shapeType);
                 gradientDrawable.setSize(config.width, config.height);
-                int orientation;
                 if (config.colors != null) {
                     gradientDrawable.setGradientCenter(config.gradientCenterX, config.gradientCenterY);
                     gradientDrawable.setUseLevel(config.useLevel);
                     gradientDrawable.setGradientType(config.gradient);
                     gradientDrawable.setColors(config.colors);
                     if (config.gradient == LINEAR_GRADIENT) {
-                        if ((orientation = (int) config.angle % 360) % 45 != 0) {
+                        int orientation = (int) config.angle % 360;
+                        if (orientation % 45 != 0) {
                             throw new IllegalArgumentException("gradient angle attribute should to be a multiple of 45");
                         }
 
@@ -177,12 +177,11 @@ public class Shapes {
                 if (config.strokeWidth != 0) {
                     if (config.dashWidth != 0.0F) {
                         int strokeWidth = config.strokeWidth;
-                        orientation = config.orientation;
                         float dashWidth = config.dashWidth;
                         float dashGap = config.dashGap;
-                        gradientDrawable.setStroke(strokeWidth, orientation, dashWidth, dashGap);
+                        gradientDrawable.setStroke(strokeWidth, config.strokeColor, dashWidth, dashGap);
                     } else {
-                        gradientDrawable.setStroke(config.strokeWidth, config.orientation);
+                        gradientDrawable.setStroke(config.strokeWidth, config.strokeColor);
                     }
                 }
 
