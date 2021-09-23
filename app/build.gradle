@@ -10,10 +10,16 @@ dependencies {
     implementation deps.kotlin
     implementation deps.coreKtx
     implementation deps.material
+    // implementation deps.activity
     implementation deps.constraintlayout
 
     implementation deps.appcompat
     implementation deps.multidex
+    implementation deps.gson
+
+    implementation deps.coroutinesCore
+    implementation deps.coroutinesAndroid
+    implementation deps.lifecycleRuntime
 
     implementation project(":Assist")
     implementation project(":CommonUi")

@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FastUi.NoActionBar">
-        <activity android:name="com.pds.fast.example.MainActivity">
+        <activity android:name="com.pds.fast.example.test.fff.GsonActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
