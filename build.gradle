@@ -68,6 +68,7 @@ ext {
             "glideCompiler"     : "com.github.bumptech.glide:compiler:${lib["glide"]}",
 
             "autoService"       : "com.google.auto.service:auto-service:${lib["autoService"]}",
+            'htmltextview'      : "org.sufficientlysecure:html-textview:4.0",
     ]
 
 }

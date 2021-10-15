@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FastUi.NoActionBar">
-        <activity android:name="com.pds.fast.example.test.GsonActivity">
+        <activity android:name="com.pds.fast.example.act.HtmlActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,7 +18,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.pds.fast.example.test.HandlerActivity"/>
+        <activity android:name="com.pds.fast.example.test.HandlerActivity" />
+
     </application>
 
 </manifest>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    应用String中的资源时，会去除字符串内的所有的样式信息。因此我们需要使用转义符，或者代码中使用需要使用'<![CDATA[]]>'来防止-->
+    <string name="html_p"><![CDATA[
+          <p style=\'text-align:center background:#00ff00 color:#ff0000; text-decoration:line-through\'><del>我是标签p样式<sup>[1]</sup></del> </p>
+          <img src=ic_launcher></img><font size=30 color=red>我是标签font样式</font>
+
+    ]]></string>
+
+    <string name="html_font"><![CDATA[
+       <font color=\'#0000ff\'>我是标签font样式</font>
+    ]]></string>
+
+    <string name="test">
+        <p style='background: #00ff00;'>我是标签p样式</p>
+    </string>
+</resources>

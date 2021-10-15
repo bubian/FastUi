@@ -1,5 +1,6 @@
 package com.pds.fast.example
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.TypedValue
@@ -7,6 +8,7 @@ import android.view.Gravity
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import android.widget.TextView
+import com.pds.fast.example.act.HtmlActivity
 import com.pds.fast.ui.R
 import com.pds.fast.ui.common.FastFlowLayout
 import com.pds.fast.ui.common.page.BaseActivity
@@ -53,6 +55,8 @@ class MainActivity : BaseAppCompatActivity() {
         }
 
         ring_progress.setProgress(0.55f)
+
+        html.setOnClickListener { startActivity(Intent(this, HtmlActivity::class.java)) }
     }
 
     private fun doTaoWorkDialog() {
