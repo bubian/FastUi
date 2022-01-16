@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_banner"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_banner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true">
+
+        <ImageView
+            android:id="@+id/iv_thumb"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:background="#FFA0B4CA" />
+
+        <View
+            android:id="@+id/play_num_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/DP_29"
+            android:layout_alignStart="@+id/iv_thumb"
+            android:layout_alignEnd="@+id/iv_thumb"
+            android:layout_alignBottom="@+id/iv_thumb"
+            tools:background="@color/color_FA3123" />
+
+
+        <TextView
+            android:id="@+id/play_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/iv_thumb"
+            android:layout_marginStart="@dimen/DP_6"
+            android:layout_marginBottom="@dimen/DP_7"
+            android:fontFamily="@font/specific"
+            android:includeFontPadding="false"
+            android:textColor="@color/color_FFFFFF"
+            android:textSize="@dimen/SP_11"
+            tools:text="244.万" />
+
+        <View
+            android:id="@+id/v_mask"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#80ffffff"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</merge>

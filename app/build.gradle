@@ -20,8 +20,12 @@ dependencies {
     implementation deps.coroutinesCore
     implementation deps.coroutinesAndroid
     implementation deps.lifecycleRuntime
+    implementation deps.okhttp3
 
     implementation project(":Assist")
     implementation project(":CommonUi")
     implementation deps.htmltextview
+
+    implementation 'com.zhy:okhttputils:2.6.2'
+
 }

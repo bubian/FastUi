@@ -8,10 +8,8 @@ import android.view.Gravity
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import android.widget.TextView
-import com.pds.fast.example.act.HtmlActivity
 import com.pds.fast.ui.R
 import com.pds.fast.ui.common.FastFlowLayout
-import com.pds.fast.ui.common.page.BaseActivity
 import com.pds.fast.ui.common.page.BaseAppCompatActivity
 import com.pds.fast.ui.common.project.TaoWorkBottomDialog
 import kotlinx.android.synthetic.main.activity_main.*

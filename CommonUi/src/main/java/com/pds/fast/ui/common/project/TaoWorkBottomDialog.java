@@ -35,7 +35,7 @@ import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
-import com.pds.fast.ui.common.FastDividerItemDecoration;
+import com.pds.fast.ui.common.decoration.FastDividerItemDecoration;
 import com.pds.fast.ui.common.R;
 import com.pds.fast.ui.common.Shapes;
 import com.pds.fast.ui.common.assist.WarpClickListener;

@@ -1,4 +1,4 @@
-package com.pds.fast.ui.common;
+package com.pds.fast.ui.common.decoration;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -69,19 +69,19 @@ public class FastDividerItemDecoration extends RecyclerView.ItemDecoration {
     /**
      * 自定义分割线
      *
-     * @param context      上下文
-     * @param orientation  列表方向
-     * @param dividerSize  分割线高度
-     * @param dividerColor 分割线颜色
+     * @param context       上下文
+     * @param orientation   列表方向
+     * @param dividerSize 分割线高度
+     * @param dividerColor  分割线颜色
      */
     public FastDividerItemDecoration(Context context, int orientation,
-                                     int dividerSize, int dividerColor) {
+                                       int dividerSize, int dividerColor) {
         this.setOrientation(orientation);
-        if (HORIZONTAL_LIST == orientation) {
+        if (HORIZONTAL_LIST == orientation){
             mDividerHeight = dividerSize;
-        } else if (VERTICAL_LIST == orientation) {
+        }else if (VERTICAL_LIST == orientation){
             mDividerWidth = dividerSize;
-        } else {
+        }else {
             mDividerHeight = mDividerWidth = dividerSize;
         }
         //抗锯齿画笔
@@ -109,6 +109,7 @@ public class FastDividerItemDecoration extends RecyclerView.ItemDecoration {
         mOrientation = orientation;
     }
 
+
     /**
      * 绘制分割线之后,需要留出一个外边框,就是说item之间的间距要换一下
      *
@@ -124,6 +125,7 @@ public class FastDividerItemDecoration extends RecyclerView.ItemDecoration {
         //获取layoutParams参数
         RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) view.getLayoutParams();
         //当前位置
+        // int itemPosition = parent.getChildAdapterPosition(view);
         int itemPosition = layoutParams.getViewLayoutPosition();
         //ItemView数量
         int childCount = parent.getAdapter().getItemCount();
@@ -133,10 +135,10 @@ public class FastDividerItemDecoration extends RecyclerView.ItemDecoration {
                 int spanCount = this.getSpanCount(parent);
                 if (isLastRaw(parent, itemPosition, spanCount, childCount)) {
                     // 如果是最后一行，则不需要绘制底部
-                    outRect.set(0, 0, 0, 0);
+                    outRect.set(0, 0, mDividerWidth, 0);
                 } else if (isLastColumn(parent, itemPosition, spanCount, childCount)) {
                     // 如果是最后一列，则不需要绘制右边
-                    outRect.set(0, 0, 0, 0);
+                    outRect.set(0, 0, 0, mDividerHeight);
                 } else {
                     outRect.set(0, 0, mDividerWidth, mDividerHeight);
                 }
@@ -156,9 +158,9 @@ public class FastDividerItemDecoration extends RecyclerView.ItemDecoration {
         }
     }
 
-    private boolean isReverseLayout(RecyclerView parent) {
+    private boolean isReverseLayout(RecyclerView parent){
         RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
-        if (layoutManager instanceof LinearLayoutManager) {
+        if (layoutManager instanceof LinearLayoutManager){
             return ((LinearLayoutManager) layoutManager).getReverseLayout();
         }
         return false;
@@ -327,4 +329,3 @@ public class FastDividerItemDecoration extends RecyclerView.ItemDecoration {
         return false;
     }
 }
-

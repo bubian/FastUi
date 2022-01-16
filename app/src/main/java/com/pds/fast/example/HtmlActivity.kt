@@ -1,4 +1,4 @@
-package com.pds.fast.example.act
+package com.pds.fast.example
 
 import android.graphics.Color
 import android.os.Build
