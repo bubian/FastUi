@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.pds.fast.example.MainActivity"
     android:background="@mipmap/bg"
-    android:padding="16dp">
+    android:clipChildren="false"
+    android:padding="16dp"
+    tools:context="com.pds.fast.example.MainActivity">
 
     <com.pds.fast.ui.common.FastFlowLayout
         android:id="@+id/fast_flow_layout"
@@ -14,15 +15,15 @@
         android:layout_height="wrap_content"
         android:background="@android:color/holo_red_dark"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/tao_work_bottom_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="淘一淘底部弹框"
-        app:layout_constraintTop_toBottomOf="@+id/fast_flow_layout"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fast_flow_layout" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/html"
@@ -30,39 +31,65 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/DP_16"
         android:text="html测试"
-        app:layout_constraintTop_toBottomOf="@+id/fast_flow_layout"
-        app:layout_constraintStart_toEndOf="@+id/tao_work_bottom_dialog" />
+        app:layout_constraintStart_toEndOf="@+id/tao_work_bottom_dialog"
+        app:layout_constraintTop_toBottomOf="@+id/fast_flow_layout" />
 
     <com.pds.fast.ui.common.progress.FastRingProgress
         android:id="@+id/ring_progress"
         android:layout_width="@dimen/DP_45"
         android:layout_height="@dimen/DP_45"
-        app:frp_startColor="@color/color_FFCB62"
+        app:frp_bgColor="@color/color_F0F0EF"
         app:frp_endColor="@color/color_FF6B7C"
-        app:frp_strokeWidth="@dimen/DP_3"
         app:frp_nodeColor="@color/color_FF7900"
         app:frp_nodeRadius="@dimen/DP_3"
-        app:frp_bgColor="@color/color_F0F0EF"
+        app:frp_startColor="@color/color_FFCB62"
         app:frp_startPosition="top"
-        app:layout_constraintTop_toBottomOf="@+id/tao_work_bottom_dialog"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:frp_strokeWidth="@dimen/DP_3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tao_work_bottom_dialog" />
 
     <com.pds.fast.ui.common.indicator.MusicianLevelIndicatorView
         android:id="@+id/ff"
         android:layout_width="match_parent"
         android:layout_height="@dimen/DP_30"
-        android:layout_marginTop="146dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ring_progress"/>
+        app:layout_constraintTop_toBottomOf="@+id/ring_progress" />
 
-    <TextView
+    <com.pds.fast.ui.common.OverlapAvatarView
+        android:id="@+id/overlapAvatarView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/specific"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="@dimen/DP_16"
-        android:textColor="@android:color/white"
-        app:layout_constraintTop_toBottomOf="@+id/ff"
-        android:text="感觉阿杰解放军jjjj"/>
+        android:layout_marginEnd="@dimen/DP_16"
+        app:layout_constraintEnd_toStartOf="@+id/add_avatar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ff" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/add_avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/DP_10"
+        android:gravity="center"
+        android:text="添加头像"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ff" />
+
+    <com.pds.fast.ui.common.ruler.SceneScrollPicker
+        android:id="@+id/view_ruler"
+        android:layout_width="match_parent"
+        android:layout_height="71dp"
+        android:layout_marginTop="@dimen/DP_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/overlapAvatarView" />
+
+    <com.pds.fast.example.bezier.BezierView
+        android:id="@+id/bezierView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="@dimen/DP_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_ruler" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

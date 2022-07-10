@@ -57,7 +57,7 @@ class BannerActivity : AppCompatActivity() {
             }
         })
     }
-
+    private var bannerState = ViewPager.SCROLL_STATE_IDLE
     private fun initBanner() {
         banner.layoutParams = banner.layoutParams.apply {
             height = bannerWidth
@@ -65,25 +65,31 @@ class BannerActivity : AppCompatActivity() {
         }
         banner.setHandLoop(true)
             .setIsClipChildrenMode(true)
-            .setViewPagerMargin((bannerWidth * 2.5f).toInt())
+            .setViewPagerMargin((bannerWidth * 0.5f).toInt())
 //                .setViewPagerMargin((bannerWidth / 2f).toInt())
-//                .setClipChildrenRightMargin(bannerWidth)
-//                .setClipChildrenLeftMargin(bannerWidth)
+                .setClipChildrenRightMargin(bannerWidth)
+                .setClipChildrenLeftMargin(bannerWidth)
 
-        banner.setOnItemClickListener { _, model: Any?, _, _ ->
+        banner.setOnItemClickListener { banner, model: Any?, _, _ ->
+            if (bannerState == ViewPager.SCROLL_STATE_IDLE){
+                // 跳转
+            }
+            Log.d("setOnPageChangeListener", "setOnItemClickListener")
         }
         banner.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(i: Int, v: Float, i1: Int) {
-                Log.d("BasePageTransformer", " position=test222=" + banner.viewPager.childCount)
+                Log.d("setOnPageChangeListener", " position=test222=" + banner.viewPager.childCount)
             }
 
             override fun onPageSelected(position: Int) {
-                Log.d("BasePageTransformer", " position=test333=$position")
+                Log.d("setOnPageChangeListener", " position=test333=$position")
 
                 banner.pageTransformer.setPageIndex(position)
             }
 
             override fun onPageScrollStateChanged(state: Int) {
+                bannerState =state
+                Log.d("setOnPageChangeListener", " position=test4444=$state")
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
                     val childCount = banner.viewPager.childCount
 
@@ -110,7 +116,7 @@ class BannerActivity : AppCompatActivity() {
 
             override fun getBannerItemView(context: Context) = SquareBannerView(context).apply {
                 alpha = 0f
-                setPadding(bannerWidth, 0, bannerWidth, 0)
+                // setPadding(bannerWidth, 0, bannerWidth, 0)
             }
 
             override fun switchToPoint(model: Any?) {

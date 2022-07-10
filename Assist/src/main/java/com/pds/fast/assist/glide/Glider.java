@@ -2,6 +2,7 @@ package com.pds.fast.assist.glide;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.widget.ImageView;
@@ -54,7 +55,7 @@ public class Glider {
     }
 
     public static void loadAvatar(ImageView imageView, String imgUrl) {
-        loadAvatar(imageView, imgUrl,Assist.getColor(imageView.getContext(),R.color.color_F0F0F0));
+        loadAvatar(imageView, imgUrl, Color.parseColor("#F0F0F0"));
     }
 
     public static void loadAvatar(ImageView imageView, String imgUrl, int color) {

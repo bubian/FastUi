@@ -10,16 +10,18 @@ import android.util.Log;
 import android.util.LogPrinter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inspector.WindowInspector;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.gson.Gson;
 import com.pds.fast.ui.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,8 +49,29 @@ public class GsonActivity extends AppCompatActivity {
         testTwo();
 
         findViewById(R.id.btn_jump).setOnClickListener(v -> {
-            startActivity(new Intent(this,HandlerActivity.class));
+            startActivity(new Intent(this, HandlerActivity.class));
         });
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            List<View> views = WindowInspector.getGlobalWindowViews();
+            Log.e("WindowInspector", "views:" + views);
+            for (View view : views) {
+                Log.e("WindowInspector", "name:" + view.getClass().getName() + ",id:" + view.getId() + ",str:" + view);
+            }
+        }
+        View kkk = new View(this);
+
+        ConstraintLayout constraintLayout = findViewById(R.id.lll);
+        LinearLayout nn = new LinearLayout(this);
+        constraintLayout.addView(nn);
+        nn.addView(kkk);
+
+        Log.e("HHHH", "kkkk:" + kkk.isAttachedToWindow());
+    }
+
+    @Override
+    public void setContentView(View view) {
+        super.setContentView(view);
+
     }
 
     @Override
@@ -58,6 +81,7 @@ public class GsonActivity extends AppCompatActivity {
     }
 
     private TextView tv;
+
     private void testTwo() {
         tv = new TextView(this);
         ViewGroup viewGroup = (ViewGroup) getWindow().getDecorView();
@@ -66,7 +90,7 @@ public class GsonActivity extends AppCompatActivity {
         tv.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View v) {
-                tv.postDelayed(viewRunnable,4000);
+                tv.postDelayed(viewRunnable, 4000);
                 tv.getHandler().dump(new LogPrinter(Log.ERROR, "Test222"), "viewHandler");
                 viewGroup.removeView(tv);
             }
@@ -77,7 +101,7 @@ public class GsonActivity extends AppCompatActivity {
                     Log.e("Test333", "onViewDetachedFromWindow");
                     // 移不掉
                     tv.removeCallbacks(viewRunnable);
-                },200);
+                }, 200);
             }
         });
     }

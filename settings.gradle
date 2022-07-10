@@ -2,3 +2,4 @@ include ':Assist'
 include ':CommonUi'
 include ':app'
 rootProject.name = "FastUi"
+include ':compose'

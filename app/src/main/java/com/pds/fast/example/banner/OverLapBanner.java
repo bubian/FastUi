@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.pds.fast.ui.R;
 import com.pds.fast.ui.common.banner.FastBannerUtils;
 
 import java.lang.ref.WeakReference;
@@ -172,7 +173,7 @@ public class OverLapBanner extends RelativeLayout implements ViewPager.OnPageCha
             mViewPager = null;
         }
         currentPos = 0;
-        mViewPager = new WrapViewPager(getContext());
+        mViewPager = new ViewPager(getContext());
         // setScrollDuration(mPageChangeDuration);
         mViewPager.setAdapter(new XBannerPageAdapter());
         mViewPager.clearOnPageChangeListeners();
@@ -184,7 +185,7 @@ public class OverLapBanner extends RelativeLayout implements ViewPager.OnPageCha
         if (mIsClipChildrenMode) {
             setClipChildren(false);
             mViewPager.setClipToPadding(false);
-            mViewPager.setOffscreenPageLimit(5);
+            mViewPager.setOffscreenPageLimit(8);
             mViewPager.setClipChildren(false);
             mViewPager.setPadding(mClipChildrenLeftMargin, mClipChildrenTopBottomMargin, mClipChildrenRightMargin, mBannerBottomMargin);
             mViewPager.setPageMargin(this.overlapStyle ? -mViewPagerMargin : mViewPagerMargin);

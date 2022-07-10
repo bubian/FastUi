@@ -11,5 +11,6 @@ dependencies {
     implementation deps.material
     implementation deps.constraintlayout
     implementation deps.appcompat
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.20"
     api deps.flexbox
 }

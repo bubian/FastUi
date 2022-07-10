@@ -75,32 +75,32 @@ class SquareBannerView @JvmOverloads constructor(context: Context, attrs: Attrib
         rlBanner.layoutParams = params
     }
 
-    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        super.onLayout(changed, l, t, r, b)
-        if (parent is ViewPager) {
-            val viewPager = parent as ViewPager
-            if (viewPager.parent is OverLapBanner) {
-                val banner = viewPager.parent as OverLapBanner
-                val childView = banner.primaryItem
-                if (null != childView) {
-                    val realL = l - childView.left
-                    var position = realL * 1f / measuredWidth
-                    var scale: Float = if (realL >= 0) {
-                        Math.max(0.6f, 1 - position)
-                    } else {
-                        Math.max(0.6f, 1 + position)
-                    }
-                    Log.d("test:", "left = $realL  measuredWidth = $measuredWidth")
-                    alpha = if (Math.abs(realL) < measuredWidth) 1f else 0f
-                    setBannerScale(scale, if (realL < 0) OverLapPageTransformer.LEFT else OverLapPageTransformer.RIGHT)
-                    if (position > 0) {
-                        position = -position
-                    }
-                    setBannerTranslationZ(position)
-                }
-
-            }
-
-        }
-    }
+//    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+//        super.onLayout(changed, l, t, r, b)
+//        if (parent is ViewPager) {
+//            val viewPager = parent as ViewPager
+//            if (viewPager.parent is OverLapBanner) {
+//                val banner = viewPager.parent as OverLapBanner
+//                val childView = banner.primaryItem
+//                if (null != childView) {
+//                    val realL = l - childView.left
+//                    var position = realL * 1f / measuredWidth
+//                    var scale: Float = if (realL >= 0) {
+//                        Math.max(0.6f, 1 - position)
+//                    } else {
+//                        Math.max(0.6f, 1 + position)
+//                    }
+//                    Log.d("test:", "left = $realL  measuredWidth = $measuredWidth")
+//                    alpha = if (Math.abs(realL) < measuredWidth) 1f else 0f
+//                    setBannerScale(scale, if (realL < 0) OverLapPageTransformer.LEFT else OverLapPageTransformer.RIGHT)
+//                    if (position > 0) {
+//                        position = -position
+//                    }
+//                    setBannerTranslationZ(position)
+//                }
+//
+//            }
+//
+//        }
+//    }
 }

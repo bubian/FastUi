@@ -31,12 +31,13 @@ suspend fun doSuspendTwo(): Int {
 //}
 
 fun main() {
-    runBlocking {
-        doSuspendOne()
-        println("${treadName()}======111")
-        doSuspendTwo()
-    }
+//    runBlocking {
+//        doSuspendOne()
+//        println("${treadName()}======111")
+//        doSuspendTwo()
+//    }
 }
+
 
 //fun main() = runBlocking{
 //    val time = measureTimeMillis {

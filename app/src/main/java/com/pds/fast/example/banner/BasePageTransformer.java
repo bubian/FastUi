@@ -24,7 +24,7 @@ public abstract class BasePageTransformer implements ViewPager.PageTransformer {
             return;
         }
         Log.d("BasePageTransformer", " position=" + position);
-        position = getRealPosition(viewPager, view);
+        position = getRealPosition(viewPager, view) / 3f;
         if (position < -boundary) {
             handleInvisiblePage(view, position);
         } else if (position <= 0.0f) {

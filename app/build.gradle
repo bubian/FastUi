@@ -24,6 +24,7 @@ dependencies {
 
     implementation project(":Assist")
     implementation project(":CommonUi")
+    implementation project(":compose")
     implementation deps.htmltextview
 
     implementation 'com.zhy:okhttputils:2.6.2'

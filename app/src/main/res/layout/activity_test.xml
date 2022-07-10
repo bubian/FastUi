@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.pds.fast.example.MainActivity"
     android:padding="16dp"
+    android:id="@+id/lll"
     tools:ignore="MissingDefaultResource">
 
     <Button
