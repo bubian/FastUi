@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FastUi.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.pds.fast.example.cl.CLActivity">
+        <activity android:name="com.pds.fast.example.PetActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

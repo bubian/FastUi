@@ -35,4 +35,12 @@ public class Assist {
         }
         return false;
     }
+
+    public static int getWidth(Context var0) {
+        return var0.getResources().getDisplayMetrics().widthPixels;
+    }
+
+    public static int getHeight(Context var0) {
+        return var0.getResources().getDisplayMetrics().heightPixels;
+    }
 }
