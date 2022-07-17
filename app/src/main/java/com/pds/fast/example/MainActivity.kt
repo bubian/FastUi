@@ -36,6 +36,7 @@ class MainActivity : BaseAppCompatActivity() {
             setHorizontalCap(60)
             setVerticalCap(60)
             setMaxRow(1)
+
             setFastFlow { _, data, tipType ->
                 val text = data as String
                 val context = context
