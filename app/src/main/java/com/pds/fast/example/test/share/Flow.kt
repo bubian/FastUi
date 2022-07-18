@@ -9,6 +9,7 @@ fun simple(): Sequence<Int> = sequence {
     for (i in 1..3) {
         Thread.sleep(2000)
         yield(i)
+
     }
 }
 
