@@ -8,11 +8,10 @@ import com.pds.fast.ui.common.R
 import com.pds.fast.ui.common.Shapes
 import com.pds.fast.ui.common.assist.dp2px
 
-class PetSignInView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : PetItemBaseView(context, attrs) {
+class PetDesktopPlayerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : PetItemBaseView(context, attrs) {
 
     override fun injectOverride(parent: FrameLayout, index: Int): PetItemBaseView = this.apply {
-        setUi("#FFEFB9", "#9E8223", R.string.sign_in)
+        setUi("#C6D3FC", "#4A61A8", R.string.desktop_player)
         parent.addView(this)
     }
-
 }
