@@ -8,8 +8,10 @@ import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
+import androidx.core.view.marginTop
 import com.pds.fast.ui.common.Shapes
 import com.pds.fast.ui.common.assist.dp2px
+import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -17,7 +19,7 @@ open class PetItemBaseView @JvmOverloads constructor(context: Context, attrs: At
     androidx.appcompat.widget.AppCompatTextView(context, attrs, defStyleAttr) {
 
     init {
-        layoutParams = FrameLayout.LayoutParams(43f.dp2px(), 43f.dp2px())
+        layoutParams = FrameLayout.LayoutParams(VIEW_SIZE, VIEW_SIZE)
         typeface = Typeface.defaultFromStyle(Typeface.BOLD)
         gravity = Gravity.CENTER
         textSize = 12f
@@ -32,8 +34,22 @@ open class PetItemBaseView @JvmOverloads constructor(context: Context, attrs: At
 
     open fun injectOverride(parent: FrameLayout, index: Int) = this.apply {}
 
-    fun open(catView: View) {
+    fun open(catView: View, index: Int, progress: Float, isRightOpen: Boolean) {
+        val catCenterX = catView.width / 2 - VIEW_SIZE / 2
+        val catCenterY = catView.height / 2 - 5f.dp2px() + VIEW_SIZE / 2
 
+        val angle = 40 * index - 80
+        var rx = cos(Math.PI / 180.toDouble() * angle) * ringRadius * progress - 110
+        val rY = sin(Math.PI / 180.toDouble() * angle) * ringRadius * progress -110
+
+        Log.e("111111", "rx=$rx rY$rY ff=${catCenterY + rY}")
+//        this.layoutParams = (layoutParams as FrameLayout.LayoutParams).apply {
+//            if (isRightOpen) marginEnd = (catCenterX + rx).toInt() else marginStart = (catCenterX + rx).toInt()
+//            topMargin = (catCenterY + rY).toInt()
+//        }
+
+        this.x = if (isRightOpen) (catCenterX - rx).toFloat() else (catCenterX + rx).toFloat()
+        this.y = (catCenterY + rY).toFloat()
     }
 
     private fun layoutInitPosition(parent: FrameLayout, catPet: View, index: Int) {
@@ -86,6 +102,9 @@ open class PetItemBaseView @JvmOverloads constructor(context: Context, attrs: At
 
     companion object {
         @JvmStatic
-        private val ringRadius = 169f.dp2px()
+        private val ringRadius = 84f.dp2px()
+
+        @JvmStatic
+        private val VIEW_SIZE = 43f.dp2px()
     }
 }

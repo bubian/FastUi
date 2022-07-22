@@ -1,13 +1,17 @@
 package com.pds.fast.ui.common.pet;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.pds.fast.ui.common.assist.NumberExKt;
 
+
 public class TouchProxy {
     private static final int MIN_DISTANCE_MOVE = 4;
     private static final int MIN_TAP_TIME = 1000;
+    private static final int MAX_SINGLE_CLICK_TIME = 220;
 
     private OnTouchEventListener mEventListener;
     private int mLastX;
@@ -15,12 +19,10 @@ public class TouchProxy {
     private int mStartX;
     private int mStartY;
     private TouchState mState = TouchState.STATE_STOP;
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private boolean isSingleClickNotConsume = false;
 
     public TouchProxy(OnTouchEventListener eventListener) {
-        mEventListener = eventListener;
-    }
-
-    public void setEventListener(OnTouchEventListener eventListener) {
         mEventListener = eventListener;
     }
 
@@ -35,6 +37,7 @@ public class TouchProxy {
         int y = (int) event.getRawY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
+                handler.removeCallbacks(singleClickRunnable);
                 mStartX = x;
                 mStartY = y;
                 mLastY = y;
@@ -45,8 +48,7 @@ public class TouchProxy {
             }
             break;
             case MotionEvent.ACTION_MOVE: {
-                if (Math.abs(x - mStartX) < distance
-                        && Math.abs(y - mStartY) < distance) {
+                if (Math.abs(x - mStartX) < distance && Math.abs(y - mStartY) < distance) {
                     if (mState == TouchState.STATE_STOP) {
                         break;
                     }
@@ -65,9 +67,16 @@ public class TouchProxy {
                 if (mEventListener != null) {
                     mEventListener.onUp(x, y);
                 }
-                if (mState != TouchState.STATE_MOVE
-                        && event.getEventTime() - event.getDownTime() < MIN_TAP_TIME) {
-                    v.performClick();
+                if (mState != TouchState.STATE_MOVE && event.getEventTime() - event.getDownTime() < MIN_TAP_TIME) {
+                    if (isSingleClickNotConsume) {
+                        if (null != mEventListener) {
+                            isSingleClickNotConsume = false;
+                            mEventListener.onDoubleClick();
+                        }
+                    } else {
+                        isSingleClickNotConsume = true;
+                        handler.postDelayed(singleClickRunnable, MAX_SINGLE_CLICK_TIME);
+                    }
                 }
                 mState = TouchState.STATE_STOP;
             }
@@ -78,6 +87,15 @@ public class TouchProxy {
         return true;
     }
 
+    private final Runnable singleClickRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (null != mEventListener) {
+                isSingleClickNotConsume = false;
+                mEventListener.onClick();
+            }
+        }
+    };
 
     public interface OnTouchEventListener {
         void onMove(int x, int y, int dx, int dy);
@@ -85,5 +103,9 @@ public class TouchProxy {
         void onUp(int x, int y);
 
         void onDown(int x, int y);
+
+        void onClick();
+
+        void onDoubleClick();
     }
 }

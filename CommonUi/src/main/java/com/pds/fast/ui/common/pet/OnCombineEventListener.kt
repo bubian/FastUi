@@ -4,6 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.MotionEvent
 import android.view.View
+import com.pds.fast.ui.common.assist.dp22px
 import kotlin.math.abs
 
 abstract class OnCombineEventListener : View.OnTouchListener {
@@ -53,7 +54,7 @@ abstract class OnCombineEventListener : View.OnTouchListener {
                     isDoubleClick = false
                     isDrag = true
                     mClickCount = 0
-                    mMoveTask(mMoveX - mDownX, mMoveY - mDownY)
+                    mMoveTask(mMoveX, mMoveY, mMoveX - mDownX, mMoveY - mDownY)
                 }
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
@@ -91,8 +92,8 @@ abstract class OnCombineEventListener : View.OnTouchListener {
         onDoubleClick()
     }
 
-    private fun mMoveTask(x: Int, y: Int) {
-        onMove(x, y)
+    private fun mMoveTask(x: Int, y: Int, dx: Int, dy: Int) {
+        onMove(x, y, dx, dy)
     }
 
     private fun mUpTask(x: Int, y: Int) {
@@ -107,12 +108,14 @@ abstract class OnCombineEventListener : View.OnTouchListener {
     abstract fun onClick()
     abstract fun onDoubleClick()
     abstract fun onLongPress()
-    abstract fun onMove(dx: Int, dy: Int)
+    abstract fun onMove(x: Int, y: Int, dx: Int, dy: Int)
     abstract fun upMove(x: Int, y: Int)
 
     companion object {
         private const val MAX_LONG_PRESS_TIME = 400
         private const val MAX_SINGLE_CLICK_TIME = 220
-        private const val MIN_DISTANCE = 8
+
+        @JvmStatic
+        private val MIN_DISTANCE = 1f.dp22px() * 4
     }
 }
