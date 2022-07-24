@@ -29,7 +29,7 @@ object PetCatFloatingManager {
             else WindowManager.LayoutParams.TYPE_PHONE
             format = PixelFormat.TRANSPARENT
             gravity = Gravity.LEFT or Gravity.TOP
-            flags = if (PetGlobalFloatingView.shouldDealBackKey()) {
+            flags = if (PetGlobalFloatingViewNew.shouldDealBackKey()) {
                 //自己处理返回按键
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
             } else {
@@ -43,7 +43,7 @@ object PetCatFloatingManager {
             height = WindowManager.LayoutParams.WRAP_CONTENT
             y = ScreenUtils.getAppScreenHeight(context) / 2
         }
-        val petView = PetGlobalFloatingView(context, wmParams)
+        val petView = PetGlobalFloatingViewNew(context, wmParams)
         val windowManager = context.getSystemService(BaseAppCompatActivity.WINDOW_SERVICE) as WindowManager
         petView.isFocusableInTouchMode = true
         windowManager.addView(petView, wmParams)

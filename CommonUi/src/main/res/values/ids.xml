@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="fast_banner_point_id" type="id" />
+    <item name="pet_cat_view" type="id" />
+    <item name="pet_tips_view" type="id" />
 </resources>

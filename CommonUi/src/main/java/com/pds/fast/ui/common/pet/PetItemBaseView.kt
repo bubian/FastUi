@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.core.view.marginTop
 import com.pds.fast.ui.common.Shapes
@@ -26,13 +27,13 @@ open class PetItemBaseView @JvmOverloads constructor(context: Context, attrs: At
         visibility = GONE
     }
 
-    fun inject(parent: FrameLayout, catPet: View, index: Int) = this.apply {
+    fun inject(parent: ViewGroup, catPet: View, index: Int) = this.apply {
         if (index < 0) return@apply
         layoutInitPosition(parent, catPet, index)
         injectOverride(parent, index)
     }
 
-    open fun injectOverride(parent: FrameLayout, index: Int) = this.apply {}
+    open fun injectOverride(parent: ViewGroup, index: Int) = this.apply {}
 
     fun open(catView: View, index: Int, progress: Float, isRightOpen: Boolean) {
         val catCenterX = catView.width / 2 - VIEW_SIZE / 2
@@ -52,7 +53,7 @@ open class PetItemBaseView @JvmOverloads constructor(context: Context, attrs: At
         this.y = (catCenterY + rY).toFloat()
     }
 
-    private fun layoutInitPosition(parent: FrameLayout, catPet: View, index: Int) {
+    private fun layoutInitPosition(parent: ViewGroup, catPet: View, index: Int) {
 
     }
 
@@ -102,9 +103,9 @@ open class PetItemBaseView @JvmOverloads constructor(context: Context, attrs: At
 
     companion object {
         @JvmStatic
-        private val ringRadius = 84f.dp2px()
+        val ringRadius = 84f.dp2px()
 
         @JvmStatic
-        private val VIEW_SIZE = 43f.dp2px()
+        val VIEW_SIZE = 43f.dp2px()
     }
 }

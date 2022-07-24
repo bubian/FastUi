@@ -4,39 +4,38 @@ import android.animation.Animator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.util.Log
 import android.view.*
 import android.view.animation.DecelerateInterpolator
-import android.widget.FrameLayout
-import android.widget.ImageView
+import androidx.appcompat.content.res.AppCompatResources
 import com.pds.fast.assist.ScreenUtils
 import com.pds.fast.ui.common.R
 import com.pds.fast.ui.common.assist.dp2px
 import com.pds.fast.ui.common.page.BaseAppCompatActivity
 
 @SuppressLint("ClickableViewAccessibility", "ViewConstructor")
-class PetGlobalFloatingView(context: Context, val wmLayoutParams: WindowManager.LayoutParams) :
-    FrameLayout(context) {
+class PetGlobalFloatingViewNew(context: Context, val wmLayoutParams: WindowManager.LayoutParams) :
+    PetBaseGlobalFloatingView(context) {
 
     private val screenW = getScreenWidth(context)
     private val screenH = getScreenHeight(context)
+    private val moveDrawable = AppCompatResources.getDrawable(context, R.mipmap.icon_cat_move)
+    private val catDrawable = AppCompatResources.getDrawable(context, R.mipmap.cat)
+    private val catRightDrawable = AppCompatResources.getDrawable(context, R.mipmap.cat_right)
+    private val catLeftDrawable = AppCompatResources.getDrawable(context, R.mipmap.icon_cat_left)
+    private val catIconRightDrawable = AppCompatResources.getDrawable(context, R.mipmap.icon_cat_right)
 
     private var catPetStates = STATE_CAT_INIT
         set(value) {
             field = value
             when (value) {
                 STATE_CAT_SLIDE_RIGHT -> {
-//                    menuCat.layoutParams = (menuCat.layoutParams as LayoutParams).apply {
-//                        gravity = Gravity.CENTER_VERTICAL or Gravity.RIGHT
-//                    }
+                    isSlideLeft = false
                 }
-
                 STATE_CAT_SLIDE_LEFT -> {
-//                    menuCat.layoutParams = (menuCat.layoutParams as LayoutParams).apply {
-//                        gravity = Gravity.CENTER_VERTICAL or Gravity.START
-//                    }
+                    isSlideLeft = true
                 }
-
                 STATE_CAT_OPEN_LEFT, STATE_CAT_OPEN_RIGHT, STATE_CAT_MOVE -> {
                     petTipsView.hideTips()
                 }
@@ -48,120 +47,43 @@ class PetGlobalFloatingView(context: Context, val wmLayoutParams: WindowManager.
     private var touchProxy: TouchProxy
     private var petTipsView: PetTipsView
 
-    private val menuCat = CatImageView(context).apply {
-        layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).apply {
-            gravity = Gravity.CENTER_VERTICAL
-//            topMargin = 50f.dp2px()
-//            bottomMargin = 50f.dp2px()
-        }
-        scaleType = ImageView.ScaleType.CENTER
-        setImageResource(R.mipmap.icon_cat_left)
-        addView(this)
-    }
-
-    inner class CatImageView(context: Context) : androidx.appcompat.widget.AppCompatImageView(context) {
-
-        override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
-            return super.dispatchTouchEvent(event)
-        }
-
-        override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-            if (catPetStates == STATE_CAT_SLIDE_RIGHT) {
-                x = (this@PetGlobalFloatingView.measuredWidth - measuredWidth).toFloat()
-            }
-        }
-    }
+    private val menuCat = CatImageView(context).inject(this)
 
     override fun onTouchEvent(ev: MotionEvent?): Boolean {
-        ev?.let {
-            when (it.action and MotionEvent.ACTION_MASK) {
-                MotionEvent.ACTION_OUTSIDE -> if (isOpen()) doDoubleClickLogic()
-            }
-        }
+        if (null != ev && ev.action and MotionEvent.ACTION_MASK == MotionEvent.ACTION_OUTSIDE && isOpen()) doDoubleClickLogic()
         return super.onTouchEvent(ev)
-    }
-
-    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        return super.dispatchTouchEvent(ev)
     }
 
     private val views: MutableList<PetItemBaseView> = mutableListOf()
 
-    private val eventProxy = object : OnCombineEventListener() {
-        override fun onClick() {
-
-        }
-
-        override fun onDoubleClick() {
-            doDoubleClickLogic()
-        }
-
-        override fun onLongPress() {
-        }
-
-        override fun onMove(x: Int, y: Int, dx: Int, dy: Int) {
-            if (x < MIN_MOVE && y < MIN_MOVE) return
-            if (catPetStates == STATE_CAT_OPEN_LEFT || catPetStates == STATE_CAT_OPEN_RIGHT) return
-
-            wmLayoutParams.x += dx
-            wmLayoutParams.y += dy
-            if (catPetStates != MIN_MOVE) menuCat.setImageResource(R.mipmap.icon_cat_move)
-            catPetStates = STATE_CAT_MOVE
-            resetBorderline(wmLayoutParams)
-            val windowManager = context.getSystemService(BaseAppCompatActivity.WINDOW_SERVICE) as WindowManager
-            windowManager.updateViewLayout(this@PetGlobalFloatingView, wmLayoutParams)
-        }
-
-        override fun upMove(x: Int, y: Int) {
-            if (catPetStates == STATE_CAT_OPEN_LEFT || catPetStates == STATE_CAT_OPEN_RIGHT) {
-                menuCat.performClick()
-                return
-            }
-            if (catPetStates == STATE_CAT_MOVE) moveSide(x, y)
-        }
-    }
-
     init {
         catPetStates = STATE_CAT_SLIDE_LEFT
-//        setBackgroundColor(Color.BLUE)
-//        layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-//
-//        setPadding(0, 50f.dp2px(), 0, 50f.dp2px())
-//        clipToPadding = false
-//        clipChildren = false
+        setBackgroundColor(Color.BLUE)
         views.add(PetSignInView(context).inject(this, menuCat, 0))
         views.add(PetDesktopPlayerView(context).inject(this, menuCat, 1))
         views.add(PetLaunchAppView(context).inject(this, menuCat, 2))
         views.add(PetCloseView(context).inject(this, menuCat, 3))
         petTipsView = PetTipsView(context).inject(this)
-
         touchProxy = TouchProxy(object : TouchProxy.OnTouchEventListener {
 
             override fun onMove(x: Int, y: Int, dx: Int, dy: Int) {
                 if (x < MIN_MOVE && y < MIN_MOVE) return
+                if (petTipsView.visibility == VISIBLE) return
                 if (catPetStates == STATE_CAT_OPEN_LEFT || catPetStates == STATE_CAT_OPEN_RIGHT) return
-
-                Log.e("11111", "11111= dx$dx kk=${wmLayoutParams.x}")
+                if (catPetStates != MIN_MOVE) menuCat.setImageDrawable(moveDrawable)
                 wmLayoutParams.x += dx
                 wmLayoutParams.y += dy
-                if (catPetStates != MIN_MOVE) menuCat.setImageResource(R.mipmap.icon_cat_move)
                 catPetStates = STATE_CAT_MOVE
-                resetBorderline(wmLayoutParams)
+                // resetBorderline(wmLayoutParams)
                 val windowManager = context.getSystemService(BaseAppCompatActivity.WINDOW_SERVICE) as WindowManager
-                windowManager.updateViewLayout(this@PetGlobalFloatingView, wmLayoutParams)
+                windowManager.updateViewLayout(this@PetGlobalFloatingViewNew, wmLayoutParams)
             }
 
             override fun onUp(x: Int, y: Int) {
-                if (catPetStates == STATE_CAT_OPEN_LEFT || catPetStates == STATE_CAT_OPEN_RIGHT) {
-                    // doDoubleClickLogic()
-                    return
-                }
                 if (catPetStates == STATE_CAT_MOVE) moveSide(x, y)
             }
 
-            override fun onDown(x: Int, y: Int) {
-
-            }
+            override fun onDown(x: Int, y: Int) {}
 
             override fun onClick() {
                 doClickLogic()
@@ -182,7 +104,8 @@ class PetGlobalFloatingView(context: Context, val wmLayoutParams: WindowManager.
             doDoubleClickLogic()
             return
         }
-        petTipsView.doPetTips(catPetStates == STATE_CAT_SLIDE_RIGHT)
+        val isSlideRight = catPetStates == STATE_CAT_SLIDE_RIGHT
+        petTipsView.doPetTips(isSlideRight)
     }
 
     private fun doDoubleClickLogic() {
@@ -193,62 +116,66 @@ class PetGlobalFloatingView(context: Context, val wmLayoutParams: WindowManager.
         if (animator?.isRunning == true) return
         val isOpen = isOpen()
 
-        val catResId = when (catPetStates) {
+        val iconDrawable = when (catPetStates) {
             STATE_CAT_SLIDE_LEFT -> {
                 catPetStates = STATE_CAT_OPEN_LEFT
-                R.mipmap.cat
+                catDrawable
             }
             STATE_CAT_SLIDE_RIGHT -> {
                 catPetStates = STATE_CAT_OPEN_RIGHT
-                R.mipmap.cat_right
+                catRightDrawable
             }
             STATE_CAT_OPEN_LEFT -> {
                 catPetStates = STATE_CAT_SLIDE_LEFT
-                R.mipmap.icon_cat_left
+                catLeftDrawable
             }
             STATE_CAT_OPEN_RIGHT -> {
                 catPetStates = STATE_CAT_SLIDE_RIGHT
-                R.mipmap.icon_cat_right
+                catIconRightDrawable
             }
-            else -> -1
+            else -> null
         }
-        val isOpenRight = catPetStates == STATE_CAT_OPEN_RIGHT
-        if (catResId > 0) {
-            menuCat.setImageResource(catResId)
-            if (isOpen) wmLayoutParams.x = if (catPetStates == STATE_CAT_SLIDE_RIGHT) ScreenUtils.getAppScreenWidth(context) - 48f.dp2px() else 0
-            else wmLayoutParams.x =
-                if (catPetStates == STATE_CAT_OPEN_RIGHT) ScreenUtils.getAppScreenWidth(context) - 175f.dp2px() else 10f.dp2px()
-
-            val windowManager = context.getSystemService(BaseAppCompatActivity.WINDOW_SERVICE) as WindowManager
-            windowManager.updateViewLayout(this@PetGlobalFloatingView, wmLayoutParams)
-
-            val an = if (isOpen) ValueAnimator.ofFloat(1f, 0f) else ValueAnimator.ofFloat(0f, 1f)
+        if (null != iconDrawable) {
+            val an = if (!isOpen) {
+                radius = 0
+                ValueAnimator.ofInt(0, PetItemBaseView.ringRadius)
+            } else {
+                radius = PetItemBaseView.ringRadius
+                ValueAnimator.ofInt(PetItemBaseView.ringRadius, 0)
+            }
             animator = an
             an.interpolator = DecelerateInterpolator()
             an.duration = 150
+            an.addListener(object : Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator?) {
+                    menuCat.setImageDrawable(iconDrawable)
+                    if (!isOpen) {
+                        views.forEach { it.visibility = VISIBLE }
+                    }
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+                    if (isOpen) {
+                        views.forEach { it.visibility = GONE }
+                    }
+                    menuCat.setImageDrawable(iconDrawable)
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+                }
+
+                override fun onAnimationRepeat(animation: Animator?) {
+                }
+
+            })
             an.addUpdateListener { vl: ValueAnimator ->
-                views.forEachIndexed { index, ch ->
-                    ch.open(this@PetGlobalFloatingView, index, vl.animatedValue as Float, isOpenRight)
-                    ch.visibility = if (isOpen) GONE else VISIBLE
-                }
-            }
-            menuCat.layoutParams = (menuCat.layoutParams as LayoutParams).apply {
-                if (isOpenRight) {
-                    topMargin = if (isOpen) 0 else 50f.dp2px()
-                    marginStart = if (isOpen) 0 else 80f.dp2px()
-                    bottomMargin = if (isOpen) 0 else 50f.dp2px()
-                    marginEnd = 0
-                } else {
-                    topMargin = if (isOpen) 0 else 50f.dp2px()
-                    marginEnd = if (isOpen) 0 else 80f.dp2px()
-                    bottomMargin = if (isOpen) 0 else 50f.dp2px()
-                    marginStart = 0
-                }
+                radius = vl.animatedValue as Int
+                Log.e("111", " radius = $radius")
+                this@PetGlobalFloatingViewNew.requestLayout()
             }
             an.start()
         }
     }
-
 
     private fun isOpen() = catPetStates == STATE_CAT_OPEN_RIGHT || catPetStates == STATE_CAT_OPEN_LEFT
 
@@ -319,14 +246,14 @@ class PetGlobalFloatingView(context: Context, val wmLayoutParams: WindowManager.
         }
 
         override fun onAnimationEnd(animation: Animator?) {
-            val catResId = if (wmLayoutParams.x > ScreenUtils.getAppScreenWidth(context) / 2) {
+            val iconDrawable = if (wmLayoutParams.x > ScreenUtils.getAppScreenWidth(context) / 2) {
                 catPetStates = STATE_CAT_SLIDE_RIGHT
-                R.mipmap.icon_cat_right
+                catIconRightDrawable
             } else {
                 catPetStates = STATE_CAT_SLIDE_LEFT
-                R.mipmap.icon_cat_left
+                catLeftDrawable
             }
-            menuCat.setImageResource(catResId)
+            menuCat.setImageDrawable(iconDrawable)
         }
 
         override fun onAnimationCancel(animation: Animator?) {
@@ -359,7 +286,7 @@ class PetGlobalFloatingView(context: Context, val wmLayoutParams: WindowManager.
             wmLayoutParams.y = (tmpY + yBy * animation.animatedValue as Float).toInt()
 
             val windowManager = context.getSystemService(BaseAppCompatActivity.WINDOW_SERVICE) as WindowManager
-            windowManager.updateViewLayout(this@PetGlobalFloatingView, wmLayoutParams)
+            windowManager.updateViewLayout(this@PetGlobalFloatingViewNew, wmLayoutParams)
         }
         animator.start()
     }
@@ -390,9 +317,6 @@ class PetGlobalFloatingView(context: Context, val wmLayoutParams: WindowManager.
     companion object {
         @JvmStatic
         private val LIMIT = 100f.dp2px()
-
-        const val angle = 40
-
         private val MIN_MOVE = 3f.dp2px()
 
         private const val STATE_CAT_INIT = 0
