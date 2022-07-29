@@ -10,4 +10,5 @@
     <string name="sign_in">签到</string>
     <string name="desktop_player">桌面\n播控</string>
     <string name="launch_kuaiyin">启动\n快音</string>
+    <string name="listen_to_songs">听歌</string>
 </resources>

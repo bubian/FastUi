@@ -342,4 +342,13 @@ class PetGlobalFloatingViewNew(context: Context, val wmLayoutParams: WindowManag
             return false
         }
     }
+
+    fun doMorningTipsLogic() {
+        doPetTips("主人早上好\n今天又是元气满满的一天！")
+    }
+
+    private fun doPetTips(tip: String?) {
+        petTipsView.text = tip
+        petTipsView.doPetTips(catPetStates == STATE_CAT_SLIDE_RIGHT)
+    }
 }

@@ -1,9 +1,12 @@
 package com.pds.fast.assist;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.text.TextUtils;
 
 import androidx.annotation.ColorRes;
 
@@ -42,5 +45,12 @@ public class Assist {
 
     public static int getHeight(Context var0) {
         return var0.getResources().getDisplayMetrics().heightPixels;
+    }
+
+    public static boolean isRunningForeground(Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+        String currentPackageName = cn.getPackageName();
+        return !TextUtils.isEmpty(currentPackageName) && currentPackageName.equals(context.getPackageName());
     }
 }
