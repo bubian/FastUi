@@ -224,6 +224,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.Placeholder
+                android:id="@+id/ph"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/DP_16"
@@ -274,6 +275,7 @@
             android:layout_marginStart="@dimen/DP_16">
 
             <androidx.constraintlayout.helper.widget.Layer
+                android:id="@+id/ler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/DP_10"
@@ -304,7 +306,6 @@
                 android:textColor="@color/white"
                 app:layout_constraintBaseline_toBaselineOf="@+id/a1"
                 app:layout_constraintStart_toEndOf="@+id/a1" />
-
 
             <TextView
                 android:id="@+id/a2"
@@ -361,7 +362,6 @@
                 app:layout_constraintCircleAngle="135"
                 app:layout_constraintCircleRadius="@dimen/DP_60" />
 
-
             <TextView
                 android:id="@+id/a7"
                 android:layout_width="wrap_content"
@@ -395,6 +395,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/DP_16"
                 android:background="@color/color_A6A6A6"
+                app:layout_constraintWidth_max="500dp"
                 android:padding="@dimen/DP_8"
                 android:text="constraintHeight_min"
                 android:textColor="@color/white"
@@ -404,8 +405,22 @@
                 app:layout_constraintTop_toBottomOf="@+id/a7"
                 app:layout_constraintWidth_percent="0.2" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+<!--            把 layout_height 换成 0dp试一试，是wrap_content时候，不会根据约束属性进行布局测量-->
+            <TextView
+                android:id="@+id/a10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/DP_16"
+                android:background="@color/color_A6A6A6"
+                android:padding="@dimen/DP_8"
+                app:layout_constrainedWidth="true"
+                android:text="cstrait_min"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toEndOf="@+id/a9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/a9" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -522,7 +537,7 @@
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toStartOf="@+id/Chain5"
                 app:layout_constraintHorizontal_bias="0.3"
-                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

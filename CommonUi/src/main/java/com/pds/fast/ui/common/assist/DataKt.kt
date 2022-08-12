@@ -1,5 +1,6 @@
 package com.pds.fast.ui.common.assist
 
+import com.pds.fast.assist.Assist
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,3 +30,5 @@ fun String.time2Date(format: String): Date? {
     val simpleDateFormat = SimpleDateFormat(format)
     return simpleDateFormat.parse(this)
 }
+
+fun Long?.isSameDay() = null != this && Assist.isSameDay(this)
