@@ -92,4 +92,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view_ruler" />
 
+    <com.pds.fast.example.custom.BgTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:padding="8dp"
+        android:text="我是自定义"
+        android:background="@color/color_1A1A1A"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bezierView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

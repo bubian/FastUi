@@ -65,7 +65,6 @@ class MainActivity : BaseAppCompatActivity() {
         }
 
         ring_progress.setProgress(0.55f)
-
         html.setOnClickListener { startActivity(Intent(this, HtmlActivity::class.java)) }
 
         doOverlapAvatarView()
