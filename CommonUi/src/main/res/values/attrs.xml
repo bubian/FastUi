@@ -137,4 +137,8 @@
         <!--一屏多显模式下 指示器是否显示在中间图片位置，默认显示中间-->
         <attr name="showIndicatorInCenter" format="boolean" />
     </declare-styleable>
+    <declare-styleable name="ShadowLayout">
+        <attr name="shadowBg" format="color"/>
+        <attr name="shadowBgRadius" format="integer"/>
+    </declare-styleable>
 </resources>

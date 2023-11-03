@@ -10,8 +10,7 @@ import android.graphics.Paint.Style.FILL
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.widget.FrameLayout
-import com.kuaiyin.player.R
-import com.kuaiyin.player.exkt.dp22px
+import com.pds.fast.ui.common.assist.dp22px
 
 class ShadowLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
