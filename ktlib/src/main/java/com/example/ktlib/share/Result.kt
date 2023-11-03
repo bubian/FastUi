@@ -1,4 +1,4 @@
-package com.pds.fast.example.test.share
+package com.example.ktlib.share
 
 sealed class Result<out T : Any> {
     data class Success<out T : Any>(val data: T) : Result<T>()

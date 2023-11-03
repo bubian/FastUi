@@ -1,4 +1,4 @@
-package com.pds.fast.example.test
+package com.example.ktlib
 
 fun main(array: Array<String>?) {
     listCategory()

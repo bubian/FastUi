@@ -1,4 +1,4 @@
-package com.pds.fast.example.test.share
+package com.example.ktlib.share
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel

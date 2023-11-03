@@ -1,9 +1,9 @@
-package com.pds.fast.example.test
+package com.example.ktlib
 
 import android.net.Uri
 
 
-fun main(): Unit {
+fun main() {
     val key = "position"
     val url = "https://saas.hixiaoman.com/activity/index?appKey=ky-az-hdgj_bxgemy&placeId=3706"
     val uri = Uri.parse(url)

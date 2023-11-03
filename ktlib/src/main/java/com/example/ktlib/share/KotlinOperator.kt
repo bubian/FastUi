@@ -1,4 +1,4 @@
-package com.pds.fast.example.test.share
+package com.example.ktlib.share
 
 inline fun sum(a: Int, b: Int): Int {
     return a + b

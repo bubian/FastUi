@@ -28,14 +28,14 @@ class KComponentActivity : ComponentActivity() {
     @Composable
     fun HelloContent() {
         Log.e("HelloContent", "1111")
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(16f.dp)) {
             // val (name, setName) = remember { mutableStateOf("start") } // 用var将 不起作用
             var name by remember { mutableStateOf("start") }
             // val name = remember { mutableStateOf("start") }
             Log.e("HelloContent", name)
             Text(
                 text = name,
-                modifier = Modifier.padding(bottom = 8.dp),
+                modifier = Modifier.padding(bottom = 8f.dp),
                 style = MaterialTheme.typography.h5
             )
             OutlinedTextField(

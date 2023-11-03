@@ -1,6 +1,5 @@
-package com.pds.fast.example.test.fff
+package com.example.ktlib.coreutines
 
-import com.pds.fast.example.treadName
 import kotlinx.coroutines.*
 
 suspend fun doSuspendOne(): Int {

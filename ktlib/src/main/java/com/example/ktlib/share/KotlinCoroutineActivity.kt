@@ -1,4 +1,4 @@
-package com.pds.fast.example.test.share
+package com.example.ktlib.share
 
 import android.os.Bundle
 import android.util.Log

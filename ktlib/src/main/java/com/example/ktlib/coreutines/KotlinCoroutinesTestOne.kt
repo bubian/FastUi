@@ -1,6 +1,6 @@
 @file:JvmName(name = "kct")
 
-package com.pds.fast.example
+package com.example.ktlib.coreutines
 
 import kotlinx.coroutines.*
 import java.io.File

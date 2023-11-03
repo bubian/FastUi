@@ -1,8 +1,7 @@
-package com.pds.fast.example
+package com.example.ktlib.coreutines
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.GlobalScope.coroutineContext
-import kotlin.system.measureTimeMillis
 
 suspend fun doSomethingUsefulOne(): Int {
     delay(1000L) // 假设我们在这里做了一些有用的事

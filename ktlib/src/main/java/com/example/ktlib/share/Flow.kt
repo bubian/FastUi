@@ -1,6 +1,6 @@
-package com.pds.fast.example.test.share
+package com.example.ktlib.share
 
-import com.pds.fast.example.treadName
+import com.example.ktlib.treadName
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.lang.RuntimeException

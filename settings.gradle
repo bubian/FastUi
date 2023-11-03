@@ -3,3 +3,4 @@ include ':CommonUi'
 include ':app'
 rootProject.name = "FastUi"
 include ':compose'
+include ':ktlib'

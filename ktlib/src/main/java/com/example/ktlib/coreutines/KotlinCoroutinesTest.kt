@@ -1,4 +1,4 @@
-package com.pds.fast.example
+package com.example.ktlib.coreutines
 
 import kotlinx.coroutines.*
 import kotlin.concurrent.thread
