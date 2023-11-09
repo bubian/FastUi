@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">FastUi</string>
     <string name="tst">FastUi%siiiii%dppp</string>
+    <string name="wake_up_tip111">Say111 %d to wake me up</string>
 </resources>
