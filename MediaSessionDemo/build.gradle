@@ -1,0 +1,72 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+// https://repo.trojan-cdn.com/ClashForAndroid/LatestRelease/
+android {
+    namespace 'com.pds.media.session.demo'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.pds.media.session.demo"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        manifestPlaceholders = [redirectSchemeName: "MediaSessionDemo", redirectHostName: "callback"]
+    }
+    signingConfigs {
+        release {
+            storeFile file("msd.jks")
+            keyAlias 'msd'
+            keyPassword '123456'
+            storePassword '123456'
+        }
+        debug {
+            storeFile file("msd.jks")
+            keyAlias 'msd'
+            keyPassword '123456'
+            storePassword '123456'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug{
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation deps.kotlin
+    implementation deps.coreKtx
+    implementation deps.material
+    // implementation deps.activity
+    implementation deps.constraintlayout
+
+    implementation deps.appcompat
+    implementation deps.multidex
+
+    implementation deps.coroutinesCore
+    implementation deps.coroutinesAndroid
+    implementation deps.lifecycleRuntime
+    implementation deps.okhttp3
+    implementation 'com.zhy:okhttputils:2.6.2'
+    implementation 'com.spotify.android:auth:2.0.1'
+
+}

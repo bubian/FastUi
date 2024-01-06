@@ -4,3 +4,4 @@ include ':app'
 rootProject.name = "FastUi"
 include ':compose'
 include ':ktlib'
+include ':MediaSessionDemo'
