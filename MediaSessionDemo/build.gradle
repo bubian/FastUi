@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 // https://repo.trojan-cdn.com/ClashForAndroid/LatestRelease/
+// spotify:2075288559@qq.com
+// @peng1993peng1993
 android {
     namespace 'com.pds.media.session.demo'
     compileSdk 33
